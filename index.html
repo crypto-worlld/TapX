@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TapX</title>
-
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
   <style>
@@ -15,16 +14,21 @@
     body {
       margin: 0;
       min-height: 100vh;
-      background: linear-gradient(180deg, #191b2a, #090a10);
+      background: linear-gradient(180deg, #15182a, #080910);
       color: white;
       font-family: Arial, sans-serif;
       text-align: center;
-      padding: 30px 20px;
+      padding: 25px 15px 100px;
     }
 
-    .title {
+    .header {
       font-size: 28px;
       font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .username {
+      opacity: .7;
     }
 
     .balance {
@@ -34,60 +38,267 @@
     }
 
     .coin {
-      width: 210px;
-      height: 210px;
+      width: 200px;
+      height: 200px;
       border-radius: 50%;
       border: none;
       background: #f5b942;
-      font-size: 90px;
-      box-shadow: 0 10px 30px rgba(245,185,66,.35);
+      font-size: 80px;
+      box-shadow: 0 10px 35px rgba(245,185,66,.4);
       cursor: pointer;
     }
 
     .coin:active {
-      transform: scale(.92);
+      transform: scale(.93);
     }
 
     .energy {
-      margin-top: 30px;
-      font-size: 18px;
+      margin: 25px auto;
+      max-width: 400px;
     }
 
     .energy-bar {
       height: 14px;
-      background: #333;
+      background: #30313b;
       border-radius: 10px;
       overflow: hidden;
-      margin-top: 10px;
+      margin-top: 8px;
     }
 
     .energy-fill {
       height: 100%;
       width: 100%;
-      background: #4caf50;
+      background: #48d66b;
+      transition: width .2s;
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .task {
+      background: #1d2030;
+      border-radius: 18px;
+      padding: 18px;
+      margin: 15px 0;
+      text-align: left;
+    }
+
+    .task-title {
+      font-size: 19px;
+      font-weight: bold;
+    }
+
+    .task-reward {
+      margin: 8px 0 15px;
+      color: #ffd45c;
+    }
+
+    .task button {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 12px;
+      background: #f5b942;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .bottom-menu {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #171925;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 5px;
+      border-top: 1px solid #303241;
+    }
+
+    .bottom-menu button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 12px;
+    }
+
+    .bottom-menu span {
+      display: block;
+      font-size: 23px;
+      margin-bottom: 3px;
+    }
+
+    .profile-box {
+      background: #1d2030;
+      border-radius: 18px;
+      padding: 25px;
+      margin-top: 20px;
     }
   </style>
 </head>
 
 <body>
 
-  <div class="title">⚡ TapX</div>
+  <!-- ГЛАВНАЯ -->
 
-  <p id="username">Игрок</p>
+  <div id="home" class="page active">
 
-  <div class="balance">
-    🪙 <span id="balance">0</span>
-  </div>
+    <div class="header">⚡ TapX</div>
 
-  <button class="coin" id="coin">🪙</button>
-
-  <div class="energy">
-    ⚡ <span id="energy">1000</span> / 1000
-
-    <div class="energy-bar">
-      <div class="energy-fill" id="energyFill"></div>
+    <div class="username" id="username">
+      Игрок
     </div>
+
+    <div class="balance">
+      🪙 <span id="balance">0</span>
+    </div>
+
+    <button class="coin" id="coin">
+      🪙
+    </button>
+
+    <div class="energy">
+      ⚡ <span id="energy">1000</span> / 1000
+
+      <div class="energy-bar">
+        <div class="energy-fill" id="energyFill"></div>
+      </div>
+    </div>
+
   </div>
+
+
+  <!-- ЗАДАНИЯ -->
+
+  <div id="tasks" class="page">
+
+    <div class="header">🎯 Задания</div>
+
+    <div class="task">
+
+      <div class="task-title">
+        📢 Подписаться на канал
+      </div>
+
+      <div class="task-reward">
+        Награда: +500 ⚡ энергии
+      </div>
+
+      <button onclick="openChannel()">
+        Подписаться
+      </button>
+
+    </div>
+
+    <div class="task">
+
+      <div class="task-title">
+        ⭐ Ежедневный бонус
+      </div>
+
+      <div class="task-reward">
+        Награда: +100 🪙
+      </div>
+
+      <button onclick="dailyBonus()">
+        Получить
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- ДРУЗЬЯ -->
+
+  <div id="friends" class="page">
+
+    <div class="header">👥 Друзья</div>
+
+    <div class="profile-box">
+
+      <p>Приглашай друзей и получай награды!</p>
+
+      <p>
+        За каждого друга: <b>+1000 🪙</b>
+      </p>
+
+      <button
+        onclick="shareReferral()"
+        style="
+          padding:14px 25px;
+          border:none;
+          border-radius:12px;
+          background:#f5b942;
+          font-weight:bold;
+        "
+      >
+        Пригласить друга
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- ПРОФИЛЬ -->
+
+  <div id="profile" class="page">
+
+    <div class="header">👤 Профиль</div>
+
+    <div class="profile-box">
+
+      <p id="profileName">
+        Игрок
+      </p>
+
+      <p>
+        🪙 Монеты:
+        <b id="profileBalance">0</b>
+      </p>
+
+      <p>
+        ⚡ Энергия:
+        <b id="profileEnergy">1000</b>
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- НИЖНЕЕ МЕНЮ -->
+
+  <div class="bottom-menu">
+
+    <button onclick="showPage('home')">
+      <span>🪙</span>
+      Главная
+    </button>
+
+    <button onclick="showPage('tasks')">
+      <span>🎯</span>
+      Задания
+    </button>
+
+    <button onclick="showPage('friends')">
+      <span>👥</span>
+      Друзья
+    </button>
+
+    <button onclick="showPage('profile')">
+      <span>👤</span>
+      Профиль
+    </button>
+
+  </div>
+
 
 <script>
 
@@ -98,33 +309,57 @@ tg.expand();
 
 const user = tg.initDataUnsafe?.user;
 
-if (user) {
-  document.getElementById("username").innerText =
-    "👋 " + (user.first_name || "Игрок");
-}
+let balance =
+  Number(localStorage.getItem("balance")) || 0;
 
-let balance = Number(localStorage.getItem("balance")) || 0;
-let energy = Number(localStorage.getItem("energy")) || 1000;
+let energy =
+  Number(localStorage.getItem("energy")) || 1000;
 
 const maxEnergy = 1000;
 
-const balanceElement = document.getElementById("balance");
-const energyElement = document.getElementById("energy");
-const energyFill = document.getElementById("energyFill");
-const coinButton = document.getElementById("coin");
+
+if (user) {
+
+  const name = user.first_name || "Игрок";
+
+  document.getElementById("username").innerText =
+    "👋 " + name;
+
+  document.getElementById("profileName").innerText =
+    "👤 " + name;
+}
+
 
 function updateScreen() {
 
-  balanceElement.innerText = balance;
-  energyElement.innerText = energy;
+  document.getElementById("balance").innerText =
+    balance;
 
-  energyFill.style.width =
+  document.getElementById("energy").innerText =
+    energy;
+
+  document.getElementById("energyFill").style.width =
     (energy / maxEnergy * 100) + "%";
+
+  document.getElementById("profileBalance").innerText =
+    balance;
+
+  document.getElementById("profileEnergy").innerText =
+    energy;
+
 }
 
-coinButton.addEventListener("click", () => {
 
-  if (energy <= 0) return;
+document.getElementById("coin").onclick = function() {
+
+  if (energy <= 0) {
+
+    if (tg.HapticFeedback) {
+      tg.HapticFeedback.notificationOccurred("error");
+    }
+
+    return;
+  }
 
   balance++;
   energy--;
@@ -137,11 +372,13 @@ coinButton.addEventListener("click", () => {
   }
 
   updateScreen();
-});
+};
 
-setInterval(() => {
+
+setInterval(function() {
 
   if (energy < maxEnergy) {
+
     energy++;
 
     localStorage.setItem("energy", energy);
@@ -150,6 +387,85 @@ setInterval(() => {
   }
 
 }, 1000);
+
+
+function showPage(page) {
+
+  document.querySelectorAll(".page").forEach(function(el) {
+    el.classList.remove("active");
+  });
+
+  document.getElementById(page).classList.add("active");
+}
+
+
+function openChannel() {
+
+  // Временно открываем канал.
+  // Позже подключим настоящую проверку подписки.
+
+  window.open(
+    "https://t.me/",
+    "_blank"
+  );
+}
+
+
+function dailyBonus() {
+
+  const today =
+    new Date().toISOString().slice(0, 10);
+
+  const lastBonus =
+    localStorage.getItem("dailyBonus");
+
+  if (lastBonus === today) {
+
+    tg.showAlert("Ты уже получил бонус сегодня!");
+
+    return;
+  }
+
+  balance += 100;
+
+  localStorage.setItem(
+    "dailyBonus",
+    today
+  );
+
+  localStorage.setItem(
+    "balance",
+    balance
+  );
+
+  tg.showAlert("🎁 Ты получил +100 🪙!");
+
+  updateScreen();
+}
+
+
+function shareReferral() {
+
+  const botUsername = "Crypto_worlld_bot";
+
+  const link =
+    "https://t.me/" +
+    botUsername +
+    "?start=ref_" +
+    (user ? user.id : "player");
+
+  const text =
+    "🔥 Заходи в TapX и зарабатывай монеты!";
+
+  const share =
+    "https://t.me/share/url?url=" +
+    encodeURIComponent(link) +
+    "&text=" +
+    encodeURIComponent(text);
+
+  window.open(share, "_blank");
+}
+
 
 updateScreen();
 
