@@ -2,144 +2,262 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+
 <title>TapX</title>
 
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
 
 <style>
-* {
-    box-sizing: border-box;
+*{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
 }
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #101114;
-    color: white;
+body{
+    margin:0;
+    background:#080b12;
+    color:white;
+    font-family:Arial,sans-serif;
+    overflow-x:hidden;
 }
 
-.app {
-    max-width: 480px;
-    min-height: 100vh;
-    margin: auto;
-    padding: 20px;
+button{
+    border:0;
+    cursor:pointer;
 }
 
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.app{
+    max-width:500px;
+    min-height:100vh;
+    margin:auto;
+    padding:18px;
 }
 
-.logo {
-    font-size: 28px;
-    font-weight: bold;
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
 }
 
-.profile-button {
-    border: 0;
-    border-radius: 50%;
-    width: 48px;
-    height: 48px;
-    font-size: 22px;
-    cursor: pointer;
+.logo{
+    font-size:28px;
+    font-weight:900;
 }
 
-.balance {
-    text-align: center;
-    margin-top: 50px;
+.profile-btn{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    background:#171d2a;
+    color:white;
+    font-size:22px;
 }
 
-.balance-title {
-    color: #aaa;
+.balance{
+    text-align:center;
+    margin-top:30px;
 }
 
-.balance-value {
-    font-size: 46px;
-    font-weight: bold;
-    margin-top: 8px;
+.balance-title{
+    color:#8992a5;
+    font-size:14px;
 }
 
-.tap-button {
-    display: block;
-    width: 220px;
-    height: 220px;
-    margin: 45px auto;
-    border: 0;
-    border-radius: 50%;
-    font-size: 32px;
-    font-weight: bold;
-    cursor: pointer;
+.balance-value{
+    font-size:45px;
+    font-weight:900;
+    margin-top:8px;
 }
 
-.tap-button:active {
-    transform: scale(.95);
+.coin{
+    font-size:22px;
 }
 
-.card {
-    background: #1b1d22;
-    border-radius: 18px;
-    padding: 18px;
-    margin-top: 15px;
+.tap-area{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin:35px 0;
 }
 
-input {
-    width: 100%;
-    padding: 14px;
-    margin-top: 10px;
-    border: 0;
-    border-radius: 10px;
-    background: #292c33;
-    color: white;
-    font-size: 16px;
+.tap-button{
+    width:220px;
+    height:220px;
+    border-radius:50%;
+    background:linear-gradient(145deg,#25a7ff,#635bff);
+    box-shadow:0 0 50px rgba(45,130,255,.35);
+    color:white;
+    font-size:45px;
+    font-weight:900;
+    transition:.08s;
 }
 
-button.action {
-    width: 100%;
-    padding: 14px;
-    margin-top: 12px;
-    border: 0;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
+.tap-button:active{
+    transform:scale(.94);
 }
 
-.close {
-    float: right;
-    cursor: pointer;
-    font-size: 22px;
+.stats{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
 }
 
-.message {
-    text-align: center;
-    margin-top: 12px;
-    min-height: 20px;
+.card{
+    background:#111722;
+    border-radius:18px;
+    padding:18px;
 }
 
-.hidden {
-    display: none;
+.card-title{
+    color:#8992a5;
+    font-size:13px;
 }
 
-.modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.75);
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    padding: 15px;
+.card-value{
+    margin-top:7px;
+    font-size:21px;
+    font-weight:bold;
 }
 
-.modal-box {
-    width: 100%;
-    max-width: 480px;
-    max-height: 90vh;
-    overflow-y: auto;
-    background: #17191e;
-    border-radius: 22px;
-    padding: 20px;
+.actions{
+    display:grid;
+    gap:10px;
+    margin-top:20px;
+}
+
+.action{
+    width:100%;
+    padding:16px;
+    border-radius:15px;
+    background:#171e2b;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+}
+
+.action:hover{
+    background:#202a3b;
+}
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.7);
+    display:none;
+    align-items:flex-end;
+    justify-content:center;
+    z-index:100;
+}
+
+.modal.active{
+    display:flex;
+}
+
+.modal-box{
+    width:100%;
+    max-width:500px;
+    background:#111722;
+    border-radius:25px 25px 0 0;
+    padding:22px;
+    max-height:90vh;
+    overflow:auto;
+}
+
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.modal-title{
+    font-size:23px;
+    font-weight:bold;
+}
+
+.close{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:#202837;
+    color:white;
+    font-size:20px;
+}
+
+.input{
+    width:100%;
+    padding:15px;
+    margin-top:10px;
+    border-radius:12px;
+    border:1px solid #2b3548;
+    background:#0b1019;
+    color:white;
+    font-size:16px;
+    outline:none;
+}
+
+.primary{
+    width:100%;
+    padding:16px;
+    margin-top:12px;
+    border-radius:13px;
+    background:#286cff;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+}
+
+.profile-info{
+    background:#0b1019;
+    padding:16px;
+    border-radius:15px;
+    margin-bottom:15px;
+}
+
+.info-row{
+    display:flex;
+    justify-content:space-between;
+    padding:8px 0;
+}
+
+.label{
+    color:#8992a5;
+}
+
+.message{
+    margin-top:12px;
+    padding:12px;
+    border-radius:10px;
+    display:none;
+}
+
+.success{
+    background:#12351f;
+    color:#5cff91;
+}
+
+.error{
+    background:#3a1515;
+    color:#ff7777;
+}
+
+.section{
+    margin-top:20px;
+}
+
+.section-title{
+    font-size:18px;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.loading{
+    opacity:.6;
+    pointer-events:none;
 }
 </style>
 </head>
@@ -151,291 +269,561 @@ button.action {
     <div class="header">
         <div class="logo">TapX</div>
 
-        <button class="profile-button" onclick="openProfile()">
+        <button class="profile-btn" onclick="openProfile()">
             👤
         </button>
     </div>
 
     <div class="balance">
         <div class="balance-title">Ваш баланс</div>
-        <div id="balance" class="balance-value">0</div>
-        <div>💰 монет</div>
+
+        <div class="balance-value">
+            <span id="balance">0</span>
+            <span class="coin">🪙</span>
+        </div>
     </div>
 
-    <button class="tap-button" onclick="tapCoin()">
-        TAP
-    </button>
+    <div class="tap-area">
+        <button class="tap-button" id="tapButton" onclick="tapCoin()">
+            TAP
+        </button>
+    </div>
+
+    <div class="stats">
+
+        <div class="card">
+            <div class="card-title">Всего тапов</div>
+            <div class="card-value" id="taps">0</div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">Ваш ID</div>
+            <div class="card-value" id="userId">—</div>
+        </div>
+
+    </div>
+
+    <div class="actions">
+
+        <button class="action" onclick="openTransfer()">
+            💸 Перевести монеты
+        </button>
+
+        <button class="action" onclick="openPromo()">
+            🎁 Промокод
+        </button>
+
+        <button class="action" onclick="openWallet()">
+            💎 TON Кошелёк
+        </button>
+
+    </div>
 
 </div>
 
 
-<!-- ПРОФИЛЬ -->
-<div id="profileModal" class="modal hidden">
+<!-- PROFILE -->
+
+<div class="modal" id="profileModal">
 
     <div class="modal-box">
 
-        <span class="close" onclick="closeProfile()">✕</span>
+        <div class="modal-header">
+            <div class="modal-title">Профиль</div>
 
-        <h2>👤 Профиль</h2>
-
-        <div class="card">
-            <div>ID пользователя:</div>
-            <b id="myId">—</b>
+            <button class="close" onclick="closeModal('profileModal')">
+                ×
+            </button>
         </div>
 
+        <div class="profile-info">
 
-        <!-- ПЕРЕВОД -->
-        <div class="card">
+            <div class="info-row">
+                <span class="label">Имя</span>
+                <span id="profileName">—</span>
+            </div>
 
-            <h3>💸 Перевод монет</h3>
+            <div class="info-row">
+                <span class="label">Telegram ID</span>
+                <span id="profileTelegramId">—</span>
+            </div>
 
-            <input
-                id="receiverId"
-                type="text"
-                placeholder="ID получателя"
-            >
+            <div class="info-row">
+                <span class="label">Игровой ID</span>
+                <span id="profileGameId">—</span>
+            </div>
 
-            <input
-                id="transferAmount"
-                type="number"
-                min="1"
-                placeholder="Количество монет"
-            >
-
-            <button
-                class="action"
-                onclick="handleTransfer()"
-            >
-                💰 Перевести
-            </button>
-
-            <div id="transferMessage" class="message"></div>
+            <div class="info-row">
+                <span class="label">Монеты</span>
+                <span id="profileCoins">0</span>
+            </div>
 
         </div>
 
+        <button class="action" onclick="openTransfer()">
+            💸 Перевод монет
+        </button>
 
-        <!-- ПРОМОКОД -->
-        <div class="card">
+        <button class="action" onclick="openPromo()">
+            🎁 Активировать промокод
+        </button>
 
-            <h3>🎁 Промокод</h3>
+        <button class="action" onclick="openWallet()">
+            💎 TON Кошелёк
+        </button>
 
-            <input
-                id="promoCode"
-                type="text"
-                placeholder="Введите промокод"
-            >
+    </div>
 
-            <button
-                class="action"
-                onclick="activatePromo()"
-            >
-                Активировать
+</div>
+
+
+<!-- TRANSFER -->
+
+<div class="modal" id="transferModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <div class="modal-title">
+                Перевод монет
+            </div>
+
+            <button class="close" onclick="closeModal('transferModal')">
+                ×
             </button>
 
-            <div id="promoMessage" class="message"></div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">
+                Ваш баланс
+            </div>
+
+            <div class="card-value">
+                <span id="transferBalance">0</span> 🪙
+            </div>
+        </div>
+
+        <input
+            class="input"
+            id="receiverId"
+            placeholder="ID получателя"
+            inputmode="text"
+        >
+
+        <input
+            class="input"
+            id="transferAmount"
+            placeholder="Количество монет"
+            type="number"
+            min="1"
+            inputmode="numeric"
+        >
+
+        <button class="primary" onclick="sendCoins()">
+            Перевести
+        </button>
+
+        <div id="transferMessage" class="message"></div>
+
+    </div>
+
+</div>
+
+
+<!-- PROMO -->
+
+<div class="modal" id="promoModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <div class="modal-title">
+                Промокод
+            </div>
+
+            <button class="close" onclick="closeModal('promoModal')">
+                ×
+            </button>
+
+        </div>
+
+        <input
+            class="input"
+            id="promoCode"
+            placeholder="Введите промокод"
+            autocomplete="off"
+        >
+
+        <button class="primary" onclick="activatePromo()">
+            Активировать
+        </button>
+
+        <div id="promoMessage" class="message"></div>
+
+    </div>
+
+</div>
+
+
+<!-- WALLET -->
+
+<div class="modal" id="walletModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <div class="modal-title">
+                TON Кошелёк
+            </div>
+
+            <button class="close" onclick="closeModal('walletModal')">
+                ×
+            </button>
+
+        </div>
+
+        <p style="color:#8992a5">
+            Подключите TON-кошелёк через TON Connect.
+        </p>
+
+        <div id="ton-connect"></div>
+
+        <div class="section">
+
+            <div class="section-title">
+                Ваш адрес
+            </div>
+
+            <div
+                id="walletAddress"
+                class="profile-info"
+                style="word-break:break-all"
+            >
+                Кошелёк не подключён
+            </div>
 
         </div>
 
     </div>
+
 </div>
 
 
 <script>
 
-/* =====================================================
-   SUPABASE
-   ===================================================== */
+/* =========================================================
+   НАСТРОЙКИ SUPABASE
+   ========================================================= */
 
-const SUPABASE_URL = "ВСТАВЬ_СЮДА_SUPABASE_URL";
+const SUPABASE_URL = "ВСТАВЬ_СЮДА_URL_ТВОЕГО_SUPABASE";
 
-const SUPABASE_ANON_KEY = "ВСТАВЬ_СЮДА_SUPABASE_ANON_KEY";
-
-const supabaseClient =
-    window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_ANON_KEY
-    );
+const SUPABASE_ANON_KEY = "ВСТАВЬ_СЮДА_ANON_KEY_ТВОЕГО_SUPABASE";
 
 
-/* =====================================================
+const supabaseClient = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+);
+
+
+/* =========================================================
    TELEGRAM
-   ===================================================== */
+   ========================================================= */
 
-const tg = window.Telegram
-    ? window.Telegram.WebApp
-    : null;
+const tg = window.Telegram?.WebApp;
 
-if (tg) {
+if(tg){
+
     tg.ready();
+
     tg.expand();
+
 }
 
 
-/* =====================================================
-   СОСТОЯНИЕ
-   ===================================================== */
+/* =========================================================
+   ДАННЫЕ ПОЛЬЗОВАТЕЛЯ
+   ========================================================= */
 
 let currentUser = null;
 
+let localBalance = 0;
 
-/* =====================================================
-   ПОЛУЧЕНИЕ ПОЛЬЗОВАТЕЛЯ
-   ===================================================== */
+let localTaps = 0;
 
-async function loadUser() {
 
-    const {
-        data: {
-            user
+/* =========================================================
+   TON CONNECT
+   ========================================================= */
+
+let tonConnectUI = null;
+
+try{
+
+    tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+
+        manifestUrl:
+        window.location.origin +
+        "/tonconnect-manifest.json",
+
+        buttonRootId:"ton-connect"
+
+    });
+
+    tonConnectUI.onStatusChange(wallet => {
+
+        if(wallet){
+
+            const address =
+                wallet.account?.address || "";
+
+            document.getElementById(
+                "walletAddress"
+            ).textContent =
+                address || "Кошелёк подключён";
+
+        }else{
+
+            document.getElementById(
+                "walletAddress"
+            ).textContent =
+                "Кошелёк не подключён";
+
         }
-    } = await supabaseClient.auth.getUser();
 
-    currentUser = user;
+    });
 
-    if (user) {
+}catch(error){
 
-        document.getElementById("myId")
-            .textContent = user.id;
-
-        await loadBalance();
-
-    } else {
-
-        document.getElementById("myId")
-            .textContent = "Не авторизован";
-
-    }
-}
-
-
-/* =====================================================
-   БАЛАНС
-   ===================================================== */
-
-async function loadBalance() {
-
-    if (!currentUser) return;
-
-    const {
-        data,
+    console.error(
+        "TON Connect:",
         error
-    } = await supabaseClient.rpc(
-        "get_tapx_balance"
     );
 
-    if (error) {
-
-        console.error(error);
-
-        return;
-    }
-
-    document.getElementById("balance")
-        .textContent = Number(data || 0).toLocaleString();
 }
 
 
-/* =====================================================
-   ТАП
-   ===================================================== */
+/* =========================================================
+   ПОЛУЧЕНИЕ TELEGRAM ПОЛЬЗОВАТЕЛЯ
+   ========================================================= */
 
-async function tapCoin() {
+function getTelegramUser(){
 
-    if (!currentUser) {
+    if(
+        tg &&
+        tg.initDataUnsafe &&
+        tg.initDataUnsafe.user
+    ){
 
-        alert("Пользователь не авторизован");
+        return tg.initDataUnsafe.user;
+
+    }
+
+    return null;
+
+}
+
+
+/* =========================================================
+   ЗАГРУЗКА ПОЛЬЗОВАТЕЛЯ
+   ========================================================= */
+
+async function loadUser(){
+
+    const telegramUser =
+        getTelegramUser();
+
+    if(!telegramUser){
+
+        document.getElementById(
+            "userId"
+        ).textContent =
+        "TEST";
 
         return;
+
     }
+
+    currentUser = telegramUser;
+
+    document.getElementById(
+        "userId"
+    ).textContent =
+    telegramUser.id;
+
+    document.getElementById(
+        "profileName"
+    ).textContent =
+    (
+        telegramUser.first_name || ""
+    ) +
+    " " +
+    (
+        telegramUser.last_name || ""
+    );
+
+    document.getElementById(
+        "profileTelegramId"
+    ).textContent =
+    telegramUser.id;
 
     /*
-       Здесь оставлен локальный пример.
-       Если в твоём TapX уже есть настоящая
-       функция начисления монет, её нужно
-       использовать вместо этого участка.
+       Здесь используется RPC/таблица Supabase.
+       После установки SQL ниже пользователь
+       автоматически появится в базе.
     */
 
-    const {
-        data,
-        error
-    } = await supabaseClient
-        .from("tapx_users")
-        .select("coins")
-        .eq("id", currentUser.id)
-        .single();
+    try{
 
-    if (error) {
+        const {data,error} =
+        await supabaseClient.rpc(
+            "get_or_create_tapx_user",
+            {
+                p_telegram_id:
+                String(telegramUser.id),
+
+                p_username:
+                telegramUser.username || null,
+
+                p_first_name:
+                telegramUser.first_name || null,
+
+                p_last_name:
+                telegramUser.last_name || null
+            }
+        );
+
+        if(error){
+
+            console.error(error);
+
+            return;
+
+        }
+
+        if(data){
+
+            localBalance =
+            Number(data.coins || 0);
+
+            document.getElementById(
+                "profileGameId"
+            ).textContent =
+            data.id || "—";
+
+            updateBalance();
+
+        }
+
+    }catch(error){
 
         console.error(error);
 
-        return;
     }
 
-    const newBalance =
-        Number(data.coins || 0) + 1;
-
-    const update =
-        await supabaseClient
-            .from("tapx_users")
-            .update({
-                coins: newBalance
-            })
-            .eq("id", currentUser.id);
-
-    if (update.error) {
-
-        console.error(update.error);
-
-        return;
-    }
-
-    await loadBalance();
 }
 
 
-/* =====================================================
-   ОТКРЫТЬ ПРОФИЛЬ
-   ===================================================== */
+/* =========================================================
+   БАЛАНС
+   ========================================================= */
 
-function openProfile() {
+function updateBalance(){
 
-    document
-        .getElementById("profileModal")
-        .classList.remove("hidden");
+    document.getElementById(
+        "balance"
+    ).textContent =
+    localBalance;
 
-    loadBalance();
+    document.getElementById(
+        "profileCoins"
+    ).textContent =
+    localBalance;
+
+    document.getElementById(
+        "transferBalance"
+    ).textContent =
+    localBalance;
+
 }
 
 
-/* =====================================================
-   ЗАКРЫТЬ ПРОФИЛЬ
-   ===================================================== */
+/* =========================================================
+   TAP
+   ========================================================= */
 
-function closeProfile() {
+async function tapCoin(){
 
-    document
-        .getElementById("profileModal")
-        .classList.add("hidden");
+    localBalance++;
+
+    localTaps++;
+
+    document.getElementById(
+        "taps"
+    ).textContent =
+    localTaps;
+
+    updateBalance();
+
+    /*
+       В дальнейшем можно подключить
+       серверную защиту от накрутки тапов.
+    */
+
 }
 
 
-/* =====================================================
-   ПЕРЕВОД МОНЕТ
-   ===================================================== */
+/* =========================================================
+   ПРОФИЛЬ
+   ========================================================= */
 
-async function handleTransfer() {
+function openProfile(){
+
+    openModal(
+        "profileModal"
+    );
+
+}
+
+
+/* =========================================================
+   ПЕРЕВОД
+   ========================================================= */
+
+function openTransfer(){
+
+    closeModal(
+        "profileModal"
+    );
+
+    openModal(
+        "transferModal"
+    );
+
+}
+
+
+async function sendCoins(){
 
     const receiverId =
         document
-            .getElementById("receiverId")
-            .value
-            .trim();
+        .getElementById(
+            "receiverId"
+        )
+        .value
+        .trim();
 
     const amount =
         Number(
             document
-                .getElementById("transferAmount")
-                .value
+            .getElementById(
+                "transferAmount"
+            )
+            .value
         );
 
     const message =
@@ -443,175 +831,317 @@ async function handleTransfer() {
             "transferMessage"
         );
 
+    message.style.display =
+        "none";
 
-    message.textContent = "";
+    if(!receiverId){
 
-
-    if (!receiverId) {
-
-        message.textContent =
-            "❌ Введите ID получателя";
-
-        return;
-    }
-
-
-    if (!Number.isInteger(amount) || amount <= 0) {
-
-        message.textContent =
-            "❌ Введите правильную сумму";
+        showMessage(
+            message,
+            "Введите ID получателя",
+            false
+        );
 
         return;
+
     }
 
+    if(
+        !Number.isInteger(amount) ||
+        amount <= 0
+    ){
 
-    if (!currentUser) {
-
-        message.textContent =
-            "❌ Пользователь не авторизован";
+        showMessage(
+            message,
+            "Введите корректную сумму",
+            false
+        );
 
         return;
+
     }
 
+    try{
 
-    message.textContent =
-        "⏳ Выполняем перевод...";
+        const {data,error} =
+        await supabaseClient.rpc(
+            "transfer_coins",
+            {
+                p_receiver_id:
+                    receiverId,
 
+                p_amount:
+                    amount
+            }
+        );
 
-    const {
-        data,
-        error
-    } = await supabaseClient.rpc(
-        "transfer_coins",
-        {
-            p_receiver_id: receiverId,
-            p_amount: amount
+        if(error){
+
+            throw error;
+
         }
-    );
 
+        if(
+            data &&
+            data.success === true
+        ){
 
-    if (error) {
+            localBalance -= amount;
+
+            updateBalance();
+
+            showMessage(
+                message,
+                "Перевод выполнен успешно!",
+                true
+            );
+
+            document.getElementById(
+                "receiverId"
+            ).value = "";
+
+            document.getElementById(
+                "transferAmount"
+            ).value = "";
+
+        }else{
+
+            throw new Error(
+                "Перевод не выполнен"
+            );
+
+        }
+
+    }catch(error){
 
         console.error(error);
 
-        message.textContent =
-            "❌ " + error.message;
+        showMessage(
+            message,
+            error.message ||
+            "Ошибка перевода",
+            false
+        );
 
-        return;
     }
 
-
-    if (!data || data.success !== true) {
-
-        message.textContent =
-            "❌ Перевод не выполнен";
-
-        return;
-    }
-
-
-    message.textContent =
-        "✅ Перевод успешно выполнен!";
-
-
-    document
-        .getElementById("receiverId")
-        .value = "";
-
-    document
-        .getElementById("transferAmount")
-        .value = "";
-
-
-    await loadBalance();
 }
 
 
-/* =====================================================
+/* =========================================================
    ПРОМОКОД
-   ===================================================== */
+   ========================================================= */
 
-async function activatePromo() {
+function openPromo(){
+
+    closeModal(
+        "profileModal"
+    );
+
+    openModal(
+        "promoModal"
+    );
+
+}
+
+
+async function activatePromo(){
 
     const code =
         document
-            .getElementById("promoCode")
-            .value
-            .trim()
-            .toUpperCase();
+        .getElementById(
+            "promoCode"
+        )
+        .value
+        .trim()
+        .toUpperCase();
 
     const message =
         document.getElementById(
             "promoMessage"
         );
 
+    if(!code){
 
-    if (!code) {
-
-        message.textContent =
-            "❌ Введите промокод";
+        showMessage(
+            message,
+            "Введите промокод",
+            false
+        );
 
         return;
+
     }
 
+    try{
 
-    /*
-       Здесь вызывается функция Supabase.
-       Если функция ещё не создана,
-       промокоды пока не будут работать.
-    */
+        const {data,error} =
+        await supabaseClient.rpc(
+            "activate_promo",
+            {
+                p_code:code
+            }
+        );
 
-    const {
-        data,
-        error
-    } = await supabaseClient.rpc(
-        "activate_promo",
-        {
-            p_code: code
+        if(error){
+
+            throw error;
+
         }
-    );
 
+        if(
+            data &&
+            data.success === true
+        ){
 
-    if (error) {
+            const reward =
+                Number(
+                    data.reward || 0
+                );
+
+            localBalance +=
+                reward;
+
+            updateBalance();
+
+            showMessage(
+                message,
+                "Промокод активирован! +" +
+                reward +
+                " 🪙",
+                true
+            );
+
+            document.getElementById(
+                "promoCode"
+            ).value = "";
+
+        }else{
+
+            throw new Error(
+                data?.message ||
+                "Промокод недействителен"
+            );
+
+        }
+
+    }catch(error){
 
         console.error(error);
 
-        message.textContent =
-            "❌ " + error.message;
+        showMessage(
+            message,
+            error.message ||
+            "Ошибка промокода",
+            false
+        );
 
-        return;
     }
 
-
-    if (!data || data.success !== true) {
-
-        message.textContent =
-            "❌ Промокод не активирован";
-
-        return;
-    }
-
-
-    message.textContent =
-        "🎉 Промокод активирован!";
-
-
-    document
-        .getElementById("promoCode")
-        .value = "";
-
-
-    await loadBalance();
 }
 
 
-/* =====================================================
-   ЗАПУСК
-   ===================================================== */
+/* =========================================================
+   TON
+   ========================================================= */
+
+function openWallet(){
+
+    closeModal(
+        "profileModal"
+    );
+
+    openModal(
+        "walletModal"
+    );
+
+}
+
+
+/* =========================================================
+   MODALS
+   ========================================================= */
+
+function openModal(id){
+
+    document
+    .getElementById(id)
+    .classList
+    .add("active");
+
+}
+
+
+function closeModal(id){
+
+    document
+    .getElementById(id)
+    .classList
+    .remove("active");
+
+}
+
+
+document
+.querySelectorAll(".modal")
+.forEach(modal => {
+
+    modal.addEventListener(
+        "click",
+        event => {
+
+            if(
+                event.target === modal
+            ){
+
+                modal.classList.remove(
+                    "active"
+                );
+
+            }
+
+        }
+    );
+
+});
+
+
+/* =========================================================
+   СООБЩЕНИЯ
+   ========================================================= */
+
+function showMessage(
+    element,
+    text,
+    success
+){
+
+    element.textContent =
+        text;
+
+    element.className =
+        "message " +
+        (
+            success
+            ? "success"
+            : "error"
+        );
+
+    element.style.display =
+        "block";
+
+}
+
+
+/* =========================================================
+   START
+   ========================================================= */
 
 loadUser();
+
+updateBalance();
 
 </script>
 
 </body>
-          </html>
+            </html>
