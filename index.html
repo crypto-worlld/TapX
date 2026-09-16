@@ -1,11 +1,17 @@
 <!DOCTYPE html><html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>TapX</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>  <style>
     * {
       box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      touch-action: manipulation;
+      -webkit-text-size-adjust: 100%;
     }
 
     body {
@@ -16,10 +22,15 @@
       font-family: Arial, sans-serif;
       text-align: center;
       padding: 25px 15px 100px;
+      touch-action: manipulation;
+      overscroll-behavior: none;
     }
 
     button {
       cursor: pointer;
+      touch-action: manipulation;
+      -webkit-user-select: none;
+      user-select: none;
     }
 
     .header {
@@ -47,6 +58,9 @@
       font-size: 80px;
       box-shadow: 0 10px 35px rgba(245,185,66,.4);
       cursor: pointer;
+      touch-action: manipulation;
+      -webkit-user-select: none;
+      user-select: none;
     }
 
     .coin:active {
@@ -109,6 +123,7 @@
       background: #f5b942;
       font-size: 16px;
       font-weight: bold;
+      touch-action: manipulation;
     }
 
     .input {
@@ -158,6 +173,7 @@
       padding: 10px 5px;
       border-top: 1px solid #303241;
       z-index: 100;
+      touch-action: manipulation;
     }
 
     .bottom-menu button {
@@ -165,6 +181,7 @@
       border: none;
       color: white;
       font-size: 12px;
+      touch-action: manipulation;
     }
 
     .bottom-menu span {
@@ -172,7 +189,7 @@
       font-size: 23px;
       margin-bottom: 3px;
     }
-  </style></head><body>  <!-- ГЛАВНАЯ -->  <div id="home" class="page active"><div class="header">⚡ TapX</div>
+  </style></head><body>  <div id="home" class="page active"><div class="header">⚡ TapX</div>
 
 <div class="username" id="username">
   Игрок
@@ -194,7 +211,7 @@
   </div>
 </div>
 
-  </div>  <!-- ЗАДАНИЯ -->  <div id="tasks" class="page"><div class="header">🎯 Задания</div>
+  </div>  <div id="tasks" class="page"><div class="header">🎯 Задания</div>
 
 <div class="task">
 
@@ -228,7 +245,6 @@
 
 </div>
 
-<!-- ПРОМОКОД -->
 
 <div class="task">
 
@@ -256,7 +272,7 @@
 
 </div>
 
-  </div>  <!-- ДРУЗЬЯ -->  <div id="friends" class="page"><div class="header">👥 Друзья</div>
+  </div>  <div id="friends" class="page"><div class="header">👥 Друзья</div>
 
 <div class="profile-box">
 
@@ -275,7 +291,7 @@
 
 </div>
 
-  </div>  <!-- ПЕРЕВОД -->  <div id="transfer" class="page"><div class="header">💸 Перевод</div>
+  </div>  <div id="transfer" class="page"><div class="header">💸 Перевод</div>
 
 <div class="profile-box">
 
@@ -323,7 +339,7 @@
 
 </div>
 
-  </div>  <!-- ПРОФИЛЬ -->  <div id="profile" class="page"><div class="header">👤 Профиль</div>
+  </div>  <div id="profile" class="page"><div class="header">👤 Профиль</div>
 
 <div class="profile-box">
 
@@ -360,7 +376,7 @@
 
 </div>
 
-  </div>  <!-- НИЖНЕЕ МЕНЮ -->  <div class="bottom-menu"><button onclick="showPage('home')">
+  </div>  <div class="bottom-menu"><button onclick="showPage('home')">
   <span>🪙</span>
   Главная
 </button>
@@ -394,11 +410,6 @@ tg.expand();
 
 const user = tg.initDataUnsafe?.user;
 
-
-/* =========================
-   ОСНОВНЫЕ ДАННЫЕ
-========================= */
-
 let balance =
   Number(localStorage.getItem("balance")) || 0;
 
@@ -407,16 +418,14 @@ let energy =
 
 const maxEnergy = 1000;
 
+let userId =
+  user ? String(user.id) : "player";
 
-/* =========================
-   ПОЛЬЗОВАТЕЛЬ
-========================= */
-
-let userId = user ? String(user.id) : "player";
 
 if (user) {
 
-  const name = user.first_name || "Игрок";
+  const name =
+    user.first_name || "Игрок";
 
   document.getElementById("username").innerText =
     "👋 " + name;
@@ -425,13 +434,10 @@ if (user) {
     "👤 " + name;
 }
 
+
 document.getElementById("myId").innerText =
   userId;
 
-
-/* =========================
-   ОБНОВЛЕНИЕ ЭКРАНА
-========================= */
 
 function updateScreen() {
 
@@ -454,10 +460,6 @@ function updateScreen() {
     balance;
 }
 
-
-/* =========================
-   ТАП
-========================= */
 
 document.getElementById("coin").onclick = function() {
 
@@ -491,10 +493,6 @@ document.getElementById("coin").onclick = function() {
 };
 
 
-/* =========================
-   ВОССТАНОВЛЕНИЕ ЭНЕРГИИ
-========================= */
-
 setInterval(function() {
 
   if (energy < maxEnergy) {
@@ -512,15 +510,12 @@ setInterval(function() {
 }, 1000);
 
 
-/* =========================
-   ПЕРЕКЛЮЧЕНИЕ СТРАНИЦ
-========================= */
-
 function showPage(page) {
 
-  document.querySelectorAll(".page").forEach(function(el) {
-    el.classList.remove("active");
-  });
+  document.querySelectorAll(".page")
+    .forEach(function(el) {
+      el.classList.remove("active");
+    });
 
   const selectedPage =
     document.getElementById(page);
@@ -535,10 +530,6 @@ function showPage(page) {
 }
 
 
-/* =========================
-   КАНАЛ
-========================= */
-
 function openChannel() {
 
   window.open(
@@ -547,10 +538,6 @@ function openChannel() {
   );
 }
 
-
-/* =========================
-   ЕЖЕДНЕВНЫЙ БОНУС
-========================= */
 
 function dailyBonus() {
 
@@ -588,10 +575,6 @@ function dailyBonus() {
   updateScreen();
 }
 
-
-/* =========================
-   ПРОМОКОДЫ
-========================= */
 
 const promoCodes = {
 
@@ -689,10 +672,6 @@ function activatePromo() {
 }
 
 
-/* =========================
-   ПЕРЕВОД МОНЕТ
-========================= */
-
 function transferCoins() {
 
   const receiver =
@@ -768,8 +747,11 @@ function transferCoins() {
     receiver;
 
 
-  document.getElementById("receiverId").value = "";
-  document.getElementById("transferAmount").value = "";
+  document.getElementById("receiverId").value =
+    "";
+
+  document.getElementById("transferAmount").value =
+    "";
 
 
   if (tg.HapticFeedback) {
@@ -782,10 +764,6 @@ function transferCoins() {
   updateScreen();
 }
 
-
-/* =========================
-   КОПИРОВАНИЕ ID
-========================= */
 
 function copyMyId() {
 
@@ -810,10 +788,6 @@ function copyMyId() {
   }
 }
 
-
-/* =========================
-   РЕФЕРАЛЬНАЯ ССЫЛКА
-========================= */
 
 function shareReferral() {
 
@@ -841,10 +815,6 @@ function shareReferral() {
   );
 }
 
-
-/* =========================
-   ЗАПУСК
-========================= */
 
 updateScreen();
 
