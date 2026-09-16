@@ -189,7 +189,7 @@
       font-size: 23px;
       margin-bottom: 3px;
     }
-  </style></head><body>  <div id="home" class="page active"><div class="header">⚡ TapX</div>
+  </style></head><body>  <!-- ГЛАВНАЯ -->  <div id="home" class="page active"><div class="header">⚡ TapX</div>
 
 <div class="username" id="username">
   Игрок
@@ -211,7 +211,7 @@
   </div>
 </div>
 
-  </div>  <div id="tasks" class="page"><div class="header">🎯 Задания</div>
+  </div>  <!-- ЗАДАНИЯ -->  <div id="tasks" class="page"><div class="header">🎯 Задания</div>
 
 <div class="task">
 
@@ -246,6 +246,8 @@
 </div>
 
 
+<!-- ПРОМОКОД -->
+
 <div class="task">
 
   <div class="task-title">
@@ -272,7 +274,7 @@
 
 </div>
 
-  </div>  <div id="friends" class="page"><div class="header">👥 Друзья</div>
+  </div>  <!-- ДРУЗЬЯ -->  <div id="friends" class="page"><div class="header">👥 Друзья</div>
 
 <div class="profile-box">
 
@@ -291,7 +293,7 @@
 
 </div>
 
-  </div>  <div id="transfer" class="page"><div class="header">💸 Перевод</div>
+  </div>  <!-- ПЕРЕВОД -->  <div id="transfer" class="page"><div class="header">💸 Перевод</div>
 
 <div class="profile-box">
 
@@ -339,7 +341,7 @@
 
 </div>
 
-  </div>  <div id="profile" class="page"><div class="header">👤 Профиль</div>
+  </div>  <!-- ПРОФИЛЬ -->  <div id="profile" class="page"><div class="header">👤 Профиль</div>
 
 <div class="profile-box">
 
@@ -376,7 +378,7 @@
 
 </div>
 
-  </div>  <div class="bottom-menu"><button onclick="showPage('home')">
+  </div>  <!-- НИЖНЕЕ МЕНЮ -->  <div class="bottom-menu"><button onclick="showPage('home')">
   <span>🪙</span>
   Главная
 </button>
@@ -410,6 +412,9 @@ tg.expand();
 
 const user = tg.initDataUnsafe?.user;
 
+
+/* ОСНОВНЫЕ ДАННЫЕ */
+
 let balance =
   Number(localStorage.getItem("balance")) || 0;
 
@@ -418,9 +423,11 @@ let energy =
 
 const maxEnergy = 1000;
 
+
+/* ПОЛЬЗОВАТЕЛЬ */
+
 let userId =
   user ? String(user.id) : "player";
-
 
 if (user) {
 
@@ -434,10 +441,11 @@ if (user) {
     "👤 " + name;
 }
 
-
 document.getElementById("myId").innerText =
   userId;
 
+
+/* ОБНОВЛЕНИЕ ЭКРАНА */
 
 function updateScreen() {
 
@@ -460,6 +468,8 @@ function updateScreen() {
     balance;
 }
 
+
+/* ТАП */
 
 document.getElementById("coin").onclick = function() {
 
@@ -493,6 +503,8 @@ document.getElementById("coin").onclick = function() {
 };
 
 
+/* ЭНЕРГИЯ */
+
 setInterval(function() {
 
   if (energy < maxEnergy) {
@@ -509,6 +521,8 @@ setInterval(function() {
 
 }, 1000);
 
+
+/* СТРАНИЦЫ */
 
 function showPage(page) {
 
@@ -530,6 +544,8 @@ function showPage(page) {
 }
 
 
+/* КАНАЛ */
+
 function openChannel() {
 
   window.open(
@@ -538,6 +554,8 @@ function openChannel() {
   );
 }
 
+
+/* ЕЖЕДНЕВНЫЙ БОНУС */
 
 function dailyBonus() {
 
@@ -576,6 +594,8 @@ function dailyBonus() {
 }
 
 
+/* ПРОМОКОДЫ */
+
 const promoCodes = {
 
   "TAPX100": 100,
@@ -599,6 +619,7 @@ function activatePromo() {
   if (!code) {
 
     message.className = "";
+
     message.innerText =
       "❌ Введи промокод.";
 
@@ -615,6 +636,7 @@ function activatePromo() {
   if (usedPromos.includes(code)) {
 
     message.className = "";
+
     message.innerText =
       "❌ Этот промокод уже использован.";
 
@@ -625,6 +647,7 @@ function activatePromo() {
   if (!promoCodes[code]) {
 
     message.className = "";
+
     message.innerText =
       "❌ Неверный промокод.";
 
@@ -663,14 +686,18 @@ function activatePromo() {
 
 
   if (tg.HapticFeedback) {
+
     tg.HapticFeedback.notificationOccurred(
       "success"
     );
+
   }
 
   updateScreen();
 }
 
+
+/* ПЕРЕВОД */
 
 function transferCoins() {
 
@@ -691,6 +718,7 @@ function transferCoins() {
   if (!receiver) {
 
     message.className = "";
+
     message.innerText =
       "❌ Введи ID получателя.";
 
@@ -701,6 +729,7 @@ function transferCoins() {
   if (!amount || amount <= 0) {
 
     message.className = "";
+
     message.innerText =
       "❌ Введи корректное количество монет.";
 
@@ -711,6 +740,7 @@ function transferCoins() {
   if (receiver === userId) {
 
     message.className = "";
+
     message.innerText =
       "❌ Нельзя отправить монеты самому себе.";
 
@@ -721,6 +751,7 @@ function transferCoins() {
   if (amount > balance) {
 
     message.className = "";
+
     message.innerText =
       "❌ Недостаточно монет.";
 
@@ -755,9 +786,11 @@ function transferCoins() {
 
 
   if (tg.HapticFeedback) {
+
     tg.HapticFeedback.notificationOccurred(
       "success"
     );
+
   }
 
 
@@ -765,9 +798,12 @@ function transferCoins() {
 }
 
 
+/* КОПИРОВАНИЕ ID */
+
 function copyMyId() {
 
-  const id = userId;
+  const id =
+    userId;
 
   if (
     navigator.clipboard &&
@@ -785,9 +821,12 @@ function copyMyId() {
     tg.showAlert(
       "Твой ID: " + id
     );
+
   }
 }
 
+
+/* РЕФЕРАЛЬНАЯ ССЫЛКА */
 
 function shareReferral() {
 
@@ -815,6 +854,8 @@ function shareReferral() {
   );
 }
 
+
+/* ЗАПУСК */
 
 updateScreen();
 
