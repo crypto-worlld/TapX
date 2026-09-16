@@ -1,8 +1,10 @@
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="viewport"
+      content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 
 <title>TapX</title>
 
@@ -16,248 +18,456 @@
     -webkit-tap-highlight-color:transparent;
 }
 
-body{
+html,body{
     margin:0;
-    background:#080b12;
-    color:white;
-    font-family:Arial,sans-serif;
+    padding:0;
+    width:100%;
+    min-height:100%;
+    background:#070b12;
+    color:#fff;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
     overflow-x:hidden;
+}
+
+button,input{
+    font-family:inherit;
 }
 
 button{
     border:0;
-    cursor:pointer;
 }
 
 .app{
-    max-width:500px;
+    width:100%;
+    max-width:520px;
     min-height:100vh;
     margin:auto;
-    padding:18px;
+    padding:18px 16px 105px;
 }
 
-.header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:25px;
-}
-
-.logo{
-    font-size:28px;
-    font-weight:900;
-}
-
-.profile-btn{
-    width:45px;
-    height:45px;
-    border-radius:50%;
-    background:#171d2a;
-    color:white;
-    font-size:22px;
-}
-
-.balance{
-    text-align:center;
-    margin-top:30px;
-}
-
-.balance-title{
-    color:#8992a5;
-    font-size:14px;
-}
-
-.balance-value{
-    font-size:45px;
-    font-weight:900;
-    margin-top:8px;
-}
-
-.coin{
-    font-size:22px;
-}
-
-.tap-area{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    margin:35px 0;
-}
-
-.tap-button{
-    width:220px;
-    height:220px;
-    border-radius:50%;
-    background:linear-gradient(145deg,#25a7ff,#635bff);
-    box-shadow:0 0 50px rgba(45,130,255,.35);
-    color:white;
-    font-size:45px;
-    font-weight:900;
-    transition:.08s;
-}
-
-.tap-button:active{
-    transform:scale(.94);
-}
-
-.stats{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
-}
-
-.card{
-    background:#111722;
-    border-radius:18px;
-    padding:18px;
-}
-
-.card-title{
-    color:#8992a5;
-    font-size:13px;
-}
-
-.card-value{
-    margin-top:7px;
-    font-size:21px;
-    font-weight:bold;
-}
-
-.actions{
-    display:grid;
-    gap:10px;
-    margin-top:20px;
-}
-
-.action{
-    width:100%;
-    padding:16px;
-    border-radius:15px;
-    background:#171e2b;
-    color:white;
-    font-size:16px;
-    font-weight:bold;
-}
-
-.action:hover{
-    background:#202a3b;
-}
-
-.modal{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.7);
+.page{
     display:none;
-    align-items:flex-end;
-    justify-content:center;
-    z-index:100;
 }
 
-.modal.active{
-    display:flex;
+.page.active{
+    display:block;
 }
 
-.modal-box{
-    width:100%;
-    max-width:500px;
-    background:#111722;
-    border-radius:25px 25px 0 0;
-    padding:22px;
-    max-height:90vh;
-    overflow:auto;
-}
-
-.modal-header{
+.top{
     display:flex;
     justify-content:space-between;
     align-items:center;
     margin-bottom:20px;
 }
 
-.modal-title{
-    font-size:23px;
-    font-weight:bold;
+.logo{
+    font-size:27px;
+    font-weight:900;
 }
 
-.close{
-    width:38px;
-    height:38px;
+.user-mini{
+    width:43px;
+    height:43px;
     border-radius:50%;
-    background:#202837;
-    color:white;
+    background:#151d2b;
+    display:flex;
+    align-items:center;
+    justify-content:center;
     font-size:20px;
 }
 
-.input{
-    width:100%;
+.balance-box{
+    text-align:center;
+    padding-top:15px;
+}
+
+.balance-label{
+    color:#8c97aa;
+    font-size:14px;
+}
+
+.balance{
+    font-size:46px;
+    font-weight:900;
+    margin-top:7px;
+}
+
+.tap-wrap{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin:30px 0;
+}
+
+.tap{
+    width:225px;
+    height:225px;
+    border-radius:50%;
+    background:linear-gradient(145deg,#238cff,#635bff);
+    box-shadow:
+        0 0 25px rgba(49,128,255,.30),
+        inset 0 3px 10px rgba(255,255,255,.15);
+    color:#fff;
+    font-size:43px;
+    font-weight:900;
+    transition:.08s;
+}
+
+.tap:active{
+    transform:scale(.93);
+}
+
+.card{
+    background:#111824;
+    border:1px solid #1c2636;
+    border-radius:18px;
+    padding:17px;
+    margin-bottom:12px;
+}
+
+.card-title{
+    font-size:18px;
+    font-weight:800;
+}
+
+.card-text{
+    color:#8d98ab;
+    font-size:14px;
+    line-height:1.45;
+    margin-top:7px;
+}
+
+.stat-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.stat{
+    background:#111824;
+    border-radius:16px;
     padding:15px;
-    margin-top:10px;
-    border-radius:12px;
-    border:1px solid #2b3548;
-    background:#0b1019;
-    color:white;
+}
+
+.stat-label{
+    color:#8d98ab;
+    font-size:12px;
+}
+
+.stat-value{
+    margin-top:7px;
+    font-size:21px;
+    font-weight:800;
+}
+
+.section-title{
+    font-size:24px;
+    font-weight:900;
+    margin:4px 0 17px;
+}
+
+.task{
+    background:#111824;
+    border:1px solid #1c2636;
+    border-radius:18px;
+    padding:17px;
+    margin-bottom:12px;
+}
+
+.task-top{
+    display:flex;
+    gap:12px;
+    align-items:center;
+}
+
+.task-icon{
+    width:48px;
+    height:48px;
+    border-radius:14px;
+    background:#1b2433;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:24px;
+    flex:none;
+}
+
+.task-name{
     font-size:16px;
-    outline:none;
+    font-weight:800;
+}
+
+.task-reward{
+    color:#65d6ff;
+    margin-top:5px;
+    font-size:14px;
+    font-weight:700;
+}
+
+.task-button{
+    width:100%;
+    padding:14px;
+    margin-top:14px;
+    border-radius:13px;
+    background:#286cff;
+    color:#fff;
+    font-weight:800;
+    font-size:15px;
+}
+
+.task-button.done{
+    background:#173523;
+    color:#63ef91;
+}
+
+.ref-box{
+    text-align:center;
+    background:#111824;
+    border-radius:20px;
+    padding:20px;
+}
+
+.ref-count{
+    font-size:42px;
+    font-weight:900;
+}
+
+.ref-label{
+    color:#8c97aa;
+    margin-top:4px;
+}
+
+.ref-link{
+    margin-top:17px;
+    padding:13px;
+    border-radius:12px;
+    background:#080d15;
+    border:1px solid #253044;
+    word-break:break-all;
+    color:#aeb9cb;
+    font-size:13px;
 }
 
 .primary{
     width:100%;
-    padding:16px;
-    margin-top:12px;
-    border-radius:13px;
+    padding:15px;
+    border-radius:14px;
     background:#286cff;
-    color:white;
+    color:#fff;
+    font-weight:800;
+    font-size:15px;
+    margin-top:12px;
+}
+
+.secondary{
+    width:100%;
+    padding:15px;
+    border-radius:14px;
+    background:#182131;
+    color:#fff;
+    font-weight:800;
+    font-size:15px;
+    margin-top:10px;
+}
+
+.promo{
+    display:flex;
+    gap:8px;
+}
+
+.promo input{
+    flex:1;
+    min-width:0;
+}
+
+.input{
+    width:100%;
+    background:#0a1019;
+    border:1px solid #293548;
+    color:#fff;
+    border-radius:13px;
+    padding:14px;
     font-size:16px;
-    font-weight:bold;
+    outline:none;
 }
 
-.profile-info{
-    background:#0b1019;
-    padding:16px;
-    border-radius:15px;
-    margin-bottom:15px;
+.profile-head{
+    text-align:center;
+    background:#111824;
+    border-radius:20px;
+    padding:22px;
 }
 
-.info-row{
+.avatar{
+    width:75px;
+    height:75px;
+    border-radius:50%;
+    margin:auto;
+    background:#286cff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:32px;
+    font-weight:900;
+}
+
+.profile-name{
+    margin-top:12px;
+    font-size:21px;
+    font-weight:900;
+}
+
+.profile-id{
+    color:#8d98ab;
+    margin-top:5px;
+    font-size:13px;
+}
+
+.profile-row{
     display:flex;
     justify-content:space-between;
-    padding:8px 0;
+    gap:10px;
+    padding:13px 0;
+    border-bottom:1px solid #202a39;
 }
 
-.label{
-    color:#8992a5;
+.profile-row:last-child{
+    border-bottom:0;
+}
+
+.muted{
+    color:#8d98ab;
+}
+
+.modal-bg{
+    display:none;
+    position:fixed;
+    z-index:1000;
+    inset:0;
+    background:rgba(0,0,0,.72);
+    align-items:flex-end;
+}
+
+.modal-bg.show{
+    display:flex;
+}
+
+.modal{
+    width:100%;
+    max-width:520px;
+    margin:auto;
+    background:#111824;
+    border-radius:25px 25px 0 0;
+    padding:20px;
+    max-height:90vh;
+    overflow:auto;
+}
+
+.modal-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:21px;
+    font-weight:900;
+    margin-bottom:18px;
+}
+
+.close{
+    width:37px;
+    height:37px;
+    border-radius:50%;
+    background:#202b3c;
+    color:#fff;
+    font-size:20px;
 }
 
 .message{
-    margin-top:12px;
-    padding:12px;
-    border-radius:10px;
     display:none;
+    margin-top:10px;
+    padding:12px;
+    border-radius:11px;
+    font-size:14px;
 }
 
-.success{
-    background:#12351f;
-    color:#5cff91;
+.message.show{
+    display:block;
 }
 
-.error{
-    background:#3a1515;
-    color:#ff7777;
+.message.ok{
+    background:#123620;
+    color:#66ef92;
 }
 
-.section{
-    margin-top:20px;
+.message.err{
+    background:#3b1818;
+    color:#ff8181;
 }
 
-.section-title{
-    font-size:18px;
-    font-weight:bold;
-    margin-bottom:10px;
+.wallet-address{
+    margin-top:15px;
+    background:#090e16;
+    border-radius:13px;
+    padding:13px;
+    word-break:break-all;
+    color:#9ca8ba;
+    font-size:12px;
 }
 
-.loading{
-    opacity:.6;
+.bottom-nav{
+    position:fixed;
+    z-index:900;
+    left:50%;
+    bottom:0;
+    transform:translateX(-50%);
+    width:100%;
+    max-width:520px;
+    padding:8px 10px calc(8px + env(safe-area-inset-bottom));
+    background:rgba(9,13,21,.96);
+    border-top:1px solid #202938;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+}
+
+.nav-btn{
+    background:transparent;
+    color:#7e899b;
+    padding:7px 3px;
+    font-size:11px;
+}
+
+.nav-btn span{
+    display:block;
+    font-size:22px;
+    margin-bottom:3px;
+}
+
+.nav-btn.active{
+    color:#fff;
+}
+
+.toast{
+    position:fixed;
+    z-index:2000;
+    left:50%;
+    top:20px;
+    transform:translateX(-50%) translateY(-20px);
+    background:#172131;
+    border:1px solid #2b3a51;
+    border-radius:13px;
+    padding:12px 17px;
+    opacity:0;
     pointer-events:none;
+    transition:.2s;
+    max-width:90%;
+    text-align:center;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
 }
 </style>
 </head>
@@ -266,352 +476,584 @@ button{
 
 <div class="app">
 
-    <div class="header">
-        <div class="logo">TapX</div>
+    <!-- ГЛАВНАЯ -->
+    <section id="page-home" class="page active">
 
-        <button class="profile-btn" onclick="openProfile()">
-            👤
-        </button>
-    </div>
+        <div class="top">
+            <div class="logo">TapX</div>
 
-    <div class="balance">
-        <div class="balance-title">Ваш баланс</div>
-
-        <div class="balance-value">
-            <span id="balance">0</span>
-            <span class="coin">🪙</span>
-        </div>
-    </div>
-
-    <div class="tap-area">
-        <button class="tap-button" id="tapButton" onclick="tapCoin()">
-            TAP
-        </button>
-    </div>
-
-    <div class="stats">
-
-        <div class="card">
-            <div class="card-title">Всего тапов</div>
-            <div class="card-value" id="taps">0</div>
-        </div>
-
-        <div class="card">
-            <div class="card-title">Ваш ID</div>
-            <div class="card-value" id="userId">—</div>
-        </div>
-
-    </div>
-
-    <div class="actions">
-
-        <button class="action" onclick="openTransfer()">
-            💸 Перевести монеты
-        </button>
-
-        <button class="action" onclick="openPromo()">
-            🎁 Промокод
-        </button>
-
-        <button class="action" onclick="openWallet()">
-            💎 TON Кошелёк
-        </button>
-
-    </div>
-
-</div>
-
-
-<!-- PROFILE -->
-
-<div class="modal" id="profileModal">
-
-    <div class="modal-box">
-
-        <div class="modal-header">
-            <div class="modal-title">Профиль</div>
-
-            <button class="close" onclick="closeModal('profileModal')">
-                ×
+            <button class="user-mini" onclick="showPage('profile')">
+                👤
             </button>
         </div>
 
-        <div class="profile-info">
-
-            <div class="info-row">
-                <span class="label">Имя</span>
-                <span id="profileName">—</span>
+        <div class="balance-box">
+            <div class="balance-label">
+                Ваш баланс
             </div>
 
-            <div class="info-row">
-                <span class="label">Telegram ID</span>
-                <span id="profileTelegramId">—</span>
+            <div class="balance">
+                <span id="balance">0</span> 🪙
+            </div>
+        </div>
+
+        <div class="tap-wrap">
+            <button class="tap" onclick="tapCoin()">
+                TAP
+            </button>
+        </div>
+
+        <div class="stat-grid">
+
+            <div class="stat">
+                <div class="stat-label">
+                    Тапов
+                </div>
+
+                <div class="stat-value" id="tapCount">
+                    0
+                </div>
             </div>
 
-            <div class="info-row">
-                <span class="label">Игровой ID</span>
-                <span id="profileGameId">—</span>
-            </div>
+            <div class="stat">
+                <div class="stat-label">
+                    Друзей
+                </div>
 
-            <div class="info-row">
-                <span class="label">Монеты</span>
-                <span id="profileCoins">0</span>
+                <div class="stat-value" id="friendCount">
+                    0
+                </div>
             </div>
 
         </div>
 
-        <button class="action" onclick="openTransfer()">
-            💸 Перевод монет
-        </button>
-
-        <button class="action" onclick="openPromo()">
-            🎁 Активировать промокод
-        </button>
-
-        <button class="action" onclick="openWallet()">
-            💎 TON Кошелёк
-        </button>
-
-    </div>
-
-</div>
+    </section>
 
 
-<!-- TRANSFER -->
+    <!-- ЗАДАНИЯ -->
+    <section id="page-tasks" class="page">
 
-<div class="modal" id="transferModal">
-
-    <div class="modal-box">
-
-        <div class="modal-header">
-
-            <div class="modal-title">
-                Перевод монет
-            </div>
-
-            <button class="close" onclick="closeModal('transferModal')">
-                ×
-            </button>
-
+        <div class="section-title">
+            Задания
         </div>
 
         <div class="card">
             <div class="card-title">
-                Ваш баланс
+                Получайте монеты
             </div>
 
-            <div class="card-value">
-                <span id="transferBalance">0</span> 🪙
+            <div class="card-text">
+                Выполняйте задания и получайте награды.
             </div>
         </div>
 
+
+        <div class="task">
+
+            <div class="task-top">
+
+                <div class="task-icon">
+                    📢
+                </div>
+
+                <div>
+
+                    <div class="task-name">
+                        Подписаться на канал
+                    </div>
+
+                    <div class="task-reward">
+                        +100 🪙
+                    </div>
+
+                </div>
+
+            </div>
+
+            <button
+                id="task1Button"
+                class="task-button"
+                onclick="taskOne()"
+            >
+                Открыть канал
+            </button>
+
+        </div>
+
+
+        <div class="task">
+
+            <div class="task-top">
+
+                <div class="task-icon">
+                    🌐
+                </div>
+
+                <div>
+
+                    <div class="task-name">
+                        Подписаться на TapX
+                    </div>
+
+                    <div class="task-reward">
+                        +100 🪙
+                    </div>
+
+                </div>
+
+            </div>
+
+            <button
+                id="task2Button"
+                class="task-button"
+                onclick="taskTwo()"
+            >
+                Открыть канал
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- ДРУЗЬЯ -->
+    <section id="page-friends" class="page">
+
+        <div class="section-title">
+            Друзья
+        </div>
+
+        <div class="ref-box">
+
+            <div class="ref-count" id="refCount">
+                0
+            </div>
+
+            <div class="ref-label">
+                приглашено друзей
+            </div>
+
+            <div class="card-text">
+                Приглашай друзей в TapX и получай
+                награды за приглашения.
+            </div>
+
+            <div class="ref-link" id="refLink">
+                Загрузка...
+            </div>
+
+            <button
+                class="primary"
+                onclick="copyReferral()"
+            >
+                📋 Скопировать ссылку
+            </button>
+
+            <button
+                class="secondary"
+                onclick="shareReferral()"
+            >
+                📤 Пригласить друзей
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- ПРОФИЛЬ -->
+    <section id="page-profile" class="page">
+
+        <div class="section-title">
+            Профиль
+        </div>
+
+        <div class="profile-head">
+
+            <div class="avatar" id="avatar">
+                👤
+            </div>
+
+            <div class="profile-name" id="profileName">
+                Пользователь
+            </div>
+
+            <div class="profile-id">
+                ID: <span id="telegramId">—</span>
+            </div>
+
+        </div>
+
+        <div class="card" style="margin-top:12px">
+
+            <div class="profile-row">
+                <span class="muted">Баланс</span>
+                <b><span id="profileBalance">0</span> 🪙</b>
+            </div>
+
+            <div class="profile-row">
+                <span class="muted">Приглашено</span>
+                <b id="profileFriends">0</b>
+            </div>
+
+        </div>
+
+
+        <button
+            class="primary"
+            onclick="openWallet()"
+        >
+            💎 Подключить TON-кошелёк
+        </button>
+
+
+        <button
+            class="secondary"
+            onclick="openTransfer()"
+        >
+            💸 Перевести монеты игроку
+        </button>
+
+
+        <div class="card" style="margin-top:12px">
+
+            <div class="card-title">
+                Промокод
+            </div>
+
+            <div class="card-text">
+                Введите промокод и получите награду.
+            </div>
+
+            <div class="promo" style="margin-top:12px">
+
+                <input
+                    id="promoInput"
+                    class="input"
+                    placeholder="Введите промокод"
+                    autocomplete="off"
+                >
+
+            </div>
+
+            <button
+                class="primary"
+                onclick="activatePromo()"
+            >
+                🎁 Активировать
+            </button>
+
+            <div
+                id="promoMessage"
+                class="message"
+            ></div>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<!-- НИЖНЕЕ МЕНЮ -->
+
+<nav class="bottom-nav">
+
+    <button
+        id="nav-home"
+        class="nav-btn active"
+        onclick="showPage('home')"
+    >
+        <span>🏠</span>
+        Главная
+    </button>
+
+    <button
+        id="nav-tasks"
+        class="nav-btn"
+        onclick="showPage('tasks')"
+    >
+        <span>🎯</span>
+        Задания
+    </button>
+
+    <button
+        id="nav-friends"
+        class="nav-btn"
+        onclick="showPage('friends')"
+    >
+        <span>👥</span>
+        Друзья
+    </button>
+
+    <button
+        id="nav-profile"
+        class="nav-btn"
+        onclick="showPage('profile')"
+    >
+        <span>👤</span>
+        Профиль
+    </button>
+
+</nav>
+
+
+<!-- TON -->
+
+<div id="walletModal" class="modal-bg">
+
+    <div class="modal">
+
+        <div class="modal-title">
+
+            <span>TON Кошелёк</span>
+
+            <button
+                class="close"
+                onclick="closeModal('walletModal')"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <div class="card-text">
+            Подключите свой TON-кошелёк.
+            Приложение не получает вашу секретную фразу.
+        </div>
+
+        <div
+            id="ton-connect"
+            style="margin-top:18px"
+        ></div>
+
+        <div
+            id="walletAddress"
+            class="wallet-address"
+        >
+            Кошелёк не подключён
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ПЕРЕВОД -->
+
+<div id="transferModal" class="modal-bg">
+
+    <div class="modal">
+
+        <div class="modal-title">
+
+            <span>Перевод монет</span>
+
+            <button
+                class="close"
+                onclick="closeModal('transferModal')"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <div class="card">
+
+            <div class="card-text">
+                Ваш баланс
+            </div>
+
+            <div style="font-size:25px;font-weight:900;margin-top:5px">
+                <span id="transferBalance">0</span> 🪙
+            </div>
+
+        </div>
+
         <input
-            class="input"
             id="receiverId"
-            placeholder="ID получателя"
+            class="input"
+            placeholder="ID игрока"
             inputmode="text"
         >
 
         <input
-            class="input"
             id="transferAmount"
+            class="input"
             placeholder="Количество монет"
             type="number"
             min="1"
-            inputmode="numeric"
+            style="margin-top:10px"
         >
 
-        <button class="primary" onclick="sendCoins()">
+        <button
+            class="primary"
+            onclick="sendCoins()"
+        >
             Перевести
         </button>
 
-        <div id="transferMessage" class="message"></div>
+        <div
+            id="transferMessage"
+            class="message"
+        ></div>
 
     </div>
 
 </div>
 
 
-<!-- PROMO -->
-
-<div class="modal" id="promoModal">
-
-    <div class="modal-box">
-
-        <div class="modal-header">
-
-            <div class="modal-title">
-                Промокод
-            </div>
-
-            <button class="close" onclick="closeModal('promoModal')">
-                ×
-            </button>
-
-        </div>
-
-        <input
-            class="input"
-            id="promoCode"
-            placeholder="Введите промокод"
-            autocomplete="off"
-        >
-
-        <button class="primary" onclick="activatePromo()">
-            Активировать
-        </button>
-
-        <div id="promoMessage" class="message"></div>
-
-    </div>
-
-</div>
-
-
-<!-- WALLET -->
-
-<div class="modal" id="walletModal">
-
-    <div class="modal-box">
-
-        <div class="modal-header">
-
-            <div class="modal-title">
-                TON Кошелёк
-            </div>
-
-            <button class="close" onclick="closeModal('walletModal')">
-                ×
-            </button>
-
-        </div>
-
-        <p style="color:#8992a5">
-            Подключите TON-кошелёк через TON Connect.
-        </p>
-
-        <div id="ton-connect"></div>
-
-        <div class="section">
-
-            <div class="section-title">
-                Ваш адрес
-            </div>
-
-            <div
-                id="walletAddress"
-                class="profile-info"
-                style="word-break:break-all"
-            >
-                Кошелёк не подключён
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
+<div id="toast" class="toast"></div>
 
 
 <script>
 
 /* =========================================================
-   НАСТРОЙКИ SUPABASE
+   SUPABASE
    ========================================================= */
 
-const SUPABASE_URL = "ВСТАВЬ_СЮДА_URL_ТВОЕГО_SUPABASE";
+/*
+   ВСТАВЬ СЮДА свои данные Supabase.
+*/
 
-const SUPABASE_ANON_KEY = "ВСТАВЬ_СЮДА_ANON_KEY_ТВОЕГО_SUPABASE";
+const SUPABASE_URL =
+    "ВСТАВЬ_URL_SUPABASE";
+
+const SUPABASE_ANON_KEY =
+    "ВСТАВЬ_ANON_KEY_SUPABASE";
 
 
-const supabaseClient = supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-);
+const db =
+    supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
 
 
 /* =========================================================
    TELEGRAM
    ========================================================= */
 
-const tg = window.Telegram?.WebApp;
+const tg =
+    window.Telegram &&
+    window.Telegram.WebApp
+        ? window.Telegram.WebApp
+        : null;
+
 
 if(tg){
 
     tg.ready();
-
     tg.expand();
 
 }
 
 
 /* =========================================================
-   ДАННЫЕ ПОЛЬЗОВАТЕЛЯ
+   СОСТОЯНИЕ
    ========================================================= */
 
-let currentUser = null;
+let balance = 0;
 
-let localBalance = 0;
+let taps = 0;
 
-let localTaps = 0;
+let friends = 0;
+
+let telegramUser = null;
+
+let gameUserId = null;
 
 
 /* =========================================================
-   TON CONNECT
+   КАНАЛЫ
    ========================================================= */
 
-let tonConnectUI = null;
-
-try{
-
-    tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-
-        manifestUrl:
-        window.location.origin +
-        "/tonconnect-manifest.json",
-
-        buttonRootId:"ton-connect"
-
-    });
-
-    tonConnectUI.onStatusChange(wallet => {
-
-        if(wallet){
-
-            const address =
-                wallet.account?.address || "";
-
-            document.getElementById(
-                "walletAddress"
-            ).textContent =
-                address || "Кошелёк подключён";
-
-        }else{
-
-            document.getElementById(
-                "walletAddress"
-            ).textContent =
-                "Кошелёк не подключён";
-
-        }
-
-    });
-
-}catch(error){
-
-    console.error(
-        "TON Connect:",
-        error
+const channelOne =
+    atob(
+        "aHR0cHM6Ly90Lm1lLyt6aUJicFVDWkVzWTJaV0k="
     );
+
+const channelTwo =
+    atob(
+        "aHR0cHM6Ly90Lm1lL1RhcFhfZ2xvYmFsX2NvaW4="
+    );
+
+
+/*
+   Ссылки выше используются только для открытия каналов.
+   Фактическая проверка подписки должна выполняться
+   через Telegram-бота/сервер.
+*/
+
+
+/* =========================================================
+   ПРОМОКОДЫ
+   ========================================================= */
+
+const promoRewards = {
+
+    "GLOBAL COIN":100,
+
+    "TAPX2026":100,
+
+    "ARMENI2026":100,
+
+    "7755443321":100
+
+};
+
+
+/* =========================================================
+   НАВИГАЦИЯ
+   ========================================================= */
+
+function showPage(page){
+
+    document
+    .querySelectorAll(".page")
+    .forEach(
+        p => p.classList.remove("active")
+    );
+
+
+    document
+    .getElementById(
+        "page-" + page
+    )
+    .classList.add("active");
+
+
+    document
+    .querySelectorAll(".nav-btn")
+    .forEach(
+        b => b.classList.remove("active")
+    );
+
+
+    const nav =
+        document.getElementById(
+            "nav-" + page
+        );
+
+
+    if(nav){
+        nav.classList.add("active");
+    }
+
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
 
 }
 
 
 /* =========================================================
-   ПОЛУЧЕНИЕ TELEGRAM ПОЛЬЗОВАТЕЛЯ
+   TELEGRAM USER
    ========================================================= */
 
-function getTelegramUser(){
+function getUser(){
 
     if(
         tg &&
@@ -629,519 +1071,98 @@ function getTelegramUser(){
 
 
 /* =========================================================
-   ЗАГРУЗКА ПОЛЬЗОВАТЕЛЯ
+   ЗАГРУЗКА
    ========================================================= */
 
-async function loadUser(){
+async function loadApp(){
 
-    const telegramUser =
-        getTelegramUser();
+    telegramUser =
+        getUser();
+
 
     if(!telegramUser){
 
         document.getElementById(
-            "userId"
+            "profileName"
+        ).textContent =
+        "Тестовый пользователь";
+
+        document.getElementById(
+            "telegramId"
         ).textContent =
         "TEST";
+
+        makeReferralLink();
+
+        updateUI();
 
         return;
 
     }
 
-    currentUser = telegramUser;
-
-    document.getElementById(
-        "userId"
-    ).textContent =
-    telegramUser.id;
 
     document.getElementById(
         "profileName"
     ).textContent =
-    (
-        telegramUser.first_name || ""
-    ) +
-    " " +
-    (
-        telegramUser.last_name || ""
-    );
+        (
+            telegramUser.first_name || ""
+        ) +
+        (
+            telegramUser.last_name
+            ? " " + telegramUser.last_name
+            : ""
+        );
+
 
     document.getElementById(
-        "profileTelegramId"
+        "telegramId"
     ).textContent =
-    telegramUser.id;
+        telegramUser.id;
+
+
+    if(
+        telegramUser.first_name
+    ){
+
+        document.getElementById(
+            "avatar"
+        ).textContent =
+            telegramUser.first_name
+            .charAt(0)
+            .toUpperCase();
+
+    }
+
+
+    makeReferralLink();
+
 
     /*
-       Здесь используется RPC/таблица Supabase.
-       После установки SQL ниже пользователь
-       автоматически появится в базе.
+       Если Supabase ещё не настроен,
+       игра не ломается.
     */
+
+    if(
+        SUPABASE_URL.startsWith("ВСТАВЬ")
+    ){
+
+        updateUI();
+
+        return;
+
+    }
+
 
     try{
 
-        const {data,error} =
-        await supabaseClient.rpc(
+        const result =
+        await db.rpc(
             "get_or_create_tapx_user",
             {
                 p_telegram_id:
-                String(telegramUser.id),
+                    String(telegramUser.id),
 
                 p_username:
-                telegramUser.username || null,
+                    telegramUser.username || null,
 
-                p_first_name:
-                telegramUser.first_name || null,
-
-                p_last_name:
-                telegramUser.last_name || null
-            }
-        );
-
-        if(error){
-
-            console.error(error);
-
-            return;
-
-        }
-
-        if(data){
-
-            localBalance =
-            Number(data.coins || 0);
-
-            document.getElementById(
-                "profileGameId"
-            ).textContent =
-            data.id || "—";
-
-            updateBalance();
-
-        }
-
-    }catch(error){
-
-        console.error(error);
-
-    }
-
-}
-
-
-/* =========================================================
-   БАЛАНС
-   ========================================================= */
-
-function updateBalance(){
-
-    document.getElementById(
-        "balance"
-    ).textContent =
-    localBalance;
-
-    document.getElementById(
-        "profileCoins"
-    ).textContent =
-    localBalance;
-
-    document.getElementById(
-        "transferBalance"
-    ).textContent =
-    localBalance;
-
-}
-
-
-/* =========================================================
-   TAP
-   ========================================================= */
-
-async function tapCoin(){
-
-    localBalance++;
-
-    localTaps++;
-
-    document.getElementById(
-        "taps"
-    ).textContent =
-    localTaps;
-
-    updateBalance();
-
-    /*
-       В дальнейшем можно подключить
-       серверную защиту от накрутки тапов.
-    */
-
-}
-
-
-/* =========================================================
-   ПРОФИЛЬ
-   ========================================================= */
-
-function openProfile(){
-
-    openModal(
-        "profileModal"
-    );
-
-}
-
-
-/* =========================================================
-   ПЕРЕВОД
-   ========================================================= */
-
-function openTransfer(){
-
-    closeModal(
-        "profileModal"
-    );
-
-    openModal(
-        "transferModal"
-    );
-
-}
-
-
-async function sendCoins(){
-
-    const receiverId =
-        document
-        .getElementById(
-            "receiverId"
-        )
-        .value
-        .trim();
-
-    const amount =
-        Number(
-            document
-            .getElementById(
-                "transferAmount"
-            )
-            .value
-        );
-
-    const message =
-        document.getElementById(
-            "transferMessage"
-        );
-
-    message.style.display =
-        "none";
-
-    if(!receiverId){
-
-        showMessage(
-            message,
-            "Введите ID получателя",
-            false
-        );
-
-        return;
-
-    }
-
-    if(
-        !Number.isInteger(amount) ||
-        amount <= 0
-    ){
-
-        showMessage(
-            message,
-            "Введите корректную сумму",
-            false
-        );
-
-        return;
-
-    }
-
-    try{
-
-        const {data,error} =
-        await supabaseClient.rpc(
-            "transfer_coins",
-            {
-                p_receiver_id:
-                    receiverId,
-
-                p_amount:
-                    amount
-            }
-        );
-
-        if(error){
-
-            throw error;
-
-        }
-
-        if(
-            data &&
-            data.success === true
-        ){
-
-            localBalance -= amount;
-
-            updateBalance();
-
-            showMessage(
-                message,
-                "Перевод выполнен успешно!",
-                true
-            );
-
-            document.getElementById(
-                "receiverId"
-            ).value = "";
-
-            document.getElementById(
-                "transferAmount"
-            ).value = "";
-
-        }else{
-
-            throw new Error(
-                "Перевод не выполнен"
-            );
-
-        }
-
-    }catch(error){
-
-        console.error(error);
-
-        showMessage(
-            message,
-            error.message ||
-            "Ошибка перевода",
-            false
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   ПРОМОКОД
-   ========================================================= */
-
-function openPromo(){
-
-    closeModal(
-        "profileModal"
-    );
-
-    openModal(
-        "promoModal"
-    );
-
-}
-
-
-async function activatePromo(){
-
-    const code =
-        document
-        .getElementById(
-            "promoCode"
-        )
-        .value
-        .trim()
-        .toUpperCase();
-
-    const message =
-        document.getElementById(
-            "promoMessage"
-        );
-
-    if(!code){
-
-        showMessage(
-            message,
-            "Введите промокод",
-            false
-        );
-
-        return;
-
-    }
-
-    try{
-
-        const {data,error} =
-        await supabaseClient.rpc(
-            "activate_promo",
-            {
-                p_code:code
-            }
-        );
-
-        if(error){
-
-            throw error;
-
-        }
-
-        if(
-            data &&
-            data.success === true
-        ){
-
-            const reward =
-                Number(
-                    data.reward || 0
-                );
-
-            localBalance +=
-                reward;
-
-            updateBalance();
-
-            showMessage(
-                message,
-                "Промокод активирован! +" +
-                reward +
-                " 🪙",
-                true
-            );
-
-            document.getElementById(
-                "promoCode"
-            ).value = "";
-
-        }else{
-
-            throw new Error(
-                data?.message ||
-                "Промокод недействителен"
-            );
-
-        }
-
-    }catch(error){
-
-        console.error(error);
-
-        showMessage(
-            message,
-            error.message ||
-            "Ошибка промокода",
-            false
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   TON
-   ========================================================= */
-
-function openWallet(){
-
-    closeModal(
-        "profileModal"
-    );
-
-    openModal(
-        "walletModal"
-    );
-
-}
-
-
-/* =========================================================
-   MODALS
-   ========================================================= */
-
-function openModal(id){
-
-    document
-    .getElementById(id)
-    .classList
-    .add("active");
-
-}
-
-
-function closeModal(id){
-
-    document
-    .getElementById(id)
-    .classList
-    .remove("active");
-
-}
-
-
-document
-.querySelectorAll(".modal")
-.forEach(modal => {
-
-    modal.addEventListener(
-        "click",
-        event => {
-
-            if(
-                event.target === modal
-            ){
-
-                modal.classList.remove(
-                    "active"
-                );
-
-            }
-
-        }
-    );
-
-});
-
-
-/* =========================================================
-   СООБЩЕНИЯ
-   ========================================================= */
-
-function showMessage(
-    element,
-    text,
-    success
-){
-
-    element.textContent =
-        text;
-
-    element.className =
-        "message " +
-        (
-            success
-            ? "success"
-            : "error"
-        );
-
-    element.style.display =
-        "block";
-
-}
-
-
-/* =========================================================
-   START
-   ========================================================= */
-
-loadUser();
-
-updateBalance();
-
-</script>
-
-</body>
-            </html>
+   
