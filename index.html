@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html lang="ru">
+<!DOCTYPE html><html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TapX</title>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
-  <style>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>  <style>
     * {
       box-sizing: border-box;
     }
@@ -19,6 +16,10 @@
       font-family: Arial, sans-serif;
       text-align: center;
       padding: 25px 15px 100px;
+    }
+
+    button {
+      cursor: pointer;
     }
 
     .header {
@@ -80,10 +81,11 @@
       display: block;
     }
 
-    .task {
+    .task,
+    .profile-box {
       background: #1d2030;
       border-radius: 18px;
-      padding: 18px;
+      padding: 20px;
       margin: 15px 0;
       text-align: left;
     }
@@ -98,7 +100,8 @@
       color: #ffd45c;
     }
 
-    .task button {
+    .task button,
+    .main-button {
       width: 100%;
       padding: 13px;
       border: none;
@@ -106,6 +109,42 @@
       background: #f5b942;
       font-size: 16px;
       font-weight: bold;
+    }
+
+    .input {
+      width: 100%;
+      padding: 14px;
+      margin: 8px 0 12px;
+      border: 1px solid #3b3e50;
+      border-radius: 12px;
+      background: #10121d;
+      color: white;
+      font-size: 16px;
+      outline: none;
+    }
+
+    .input:focus {
+      border-color: #f5b942;
+    }
+
+    .small-text {
+      font-size: 13px;
+      opacity: .65;
+      margin-top: 8px;
+    }
+
+    .my-id {
+      word-break: break-all;
+      background: #10121d;
+      padding: 12px;
+      border-radius: 10px;
+      margin: 10px 0;
+      font-size: 14px;
+    }
+
+    .success {
+      color: #48d66b;
+      margin-top: 10px;
     }
 
     .bottom-menu {
@@ -118,6 +157,7 @@
       justify-content: space-around;
       padding: 10px 5px;
       border-top: 1px solid #303241;
+      z-index: 100;
     }
 
     .bottom-menu button {
@@ -132,175 +172,220 @@
       font-size: 23px;
       margin-bottom: 3px;
     }
+  </style></head><body>  <!-- ГЛАВНАЯ -->  <div id="home" class="page active"><div class="header">⚡ TapX</div>
 
-    .profile-box {
-      background: #1d2030;
-      border-radius: 18px;
-      padding: 25px;
-      margin-top: 20px;
-    }
-  </style>
-</head>
+<div class="username" id="username">
+  Игрок
+</div>
 
-<body>
+<div class="balance">
+  🪙 <span id="balance">0</span>
+</div>
 
-  <!-- ГЛАВНАЯ -->
+<button class="coin" id="coin">
+  🪙
+</button>
 
-  <div id="home" class="page active">
+<div class="energy">
+  ⚡ <span id="energy">1000</span> / 1000
 
-    <div class="header">⚡ TapX</div>
+  <div class="energy-bar">
+    <div class="energy-fill" id="energyFill"></div>
+  </div>
+</div>
 
-    <div class="username" id="username">
-      Игрок
-    </div>
+  </div>  <!-- ЗАДАНИЯ -->  <div id="tasks" class="page"><div class="header">🎯 Задания</div>
 
-    <div class="balance">
-      🪙 <span id="balance">0</span>
-    </div>
+<div class="task">
 
-    <button class="coin" id="coin">
-      🪙
-    </button>
-
-    <div class="energy">
-      ⚡ <span id="energy">1000</span> / 1000
-
-      <div class="energy-bar">
-        <div class="energy-fill" id="energyFill"></div>
-      </div>
-    </div>
-
+  <div class="task-title">
+    📢 Подписаться на канал
   </div>
 
-
-  <!-- ЗАДАНИЯ -->
-
-  <div id="tasks" class="page">
-
-    <div class="header">🎯 Задания</div>
-
-    <div class="task">
-
-      <div class="task-title">
-        📢 Подписаться на канал
-      </div>
-
-      <div class="task-reward">
-        Награда: +500 ⚡ энергии
-      </div>
-
-      <button onclick="openChannel()">
-        Подписаться
-      </button>
-
-    </div>
-
-    <div class="task">
-
-      <div class="task-title">
-        ⭐ Ежедневный бонус
-      </div>
-
-      <div class="task-reward">
-        Награда: +100 🪙
-      </div>
-
-      <button onclick="dailyBonus()">
-        Получить
-      </button>
-
-    </div>
-
+  <div class="task-reward">
+    Награда: +500 ⚡ энергии
   </div>
 
+  <button onclick="openChannel()">
+    Подписаться
+  </button>
 
-  <!-- ДРУЗЬЯ -->
+</div>
 
-  <div id="friends" class="page">
+<div class="task">
 
-    <div class="header">👥 Друзья</div>
-
-    <div class="profile-box">
-
-      <p>Приглашай друзей и получай награды!</p>
-
-      <p>
-        За каждого друга: <b>+1000 🪙</b>
-      </p>
-
-      <button
-        onclick="shareReferral()"
-        style="
-          padding:14px 25px;
-          border:none;
-          border-radius:12px;
-          background:#f5b942;
-          font-weight:bold;
-        "
-      >
-        Пригласить друга
-      </button>
-
-    </div>
-
+  <div class="task-title">
+    ⭐ Ежедневный бонус
   </div>
 
-
-  <!-- ПРОФИЛЬ -->
-
-  <div id="profile" class="page">
-
-    <div class="header">👤 Профиль</div>
-
-    <div class="profile-box">
-
-      <p id="profileName">
-        Игрок
-      </p>
-
-      <p>
-        🪙 Монеты:
-        <b id="profileBalance">0</b>
-      </p>
-
-      <p>
-        ⚡ Энергия:
-        <b id="profileEnergy">1000</b>
-      </p>
-
-    </div>
-
+  <div class="task-reward">
+    Награда: +100 🪙
   </div>
 
+  <button onclick="dailyBonus()">
+    Получить
+  </button>
 
-  <!-- НИЖНЕЕ МЕНЮ -->
+</div>
 
-  <div class="bottom-menu">
+<!-- ПРОМОКОД -->
 
-    <button onclick="showPage('home')">
-      <span>🪙</span>
-      Главная
-    </button>
+<div class="task">
 
-    <button onclick="showPage('tasks')">
-      <span>🎯</span>
-      Задания
-    </button>
-
-    <button onclick="showPage('friends')">
-      <span>👥</span>
-      Друзья
-    </button>
-
-    <button onclick="showPage('profile')">
-      <span>👤</span>
-      Профиль
-    </button>
-
+  <div class="task-title">
+    🎟️ Промокод
   </div>
 
+  <div class="task-reward">
+    Введи промокод и получи монеты
+  </div>
 
-<script>
+  <input
+    class="input"
+    id="promoInput"
+    type="text"
+    placeholder="Введите промокод"
+    autocomplete="off"
+  >
+
+  <button onclick="activatePromo()">
+    Активировать
+  </button>
+
+  <div id="promoMessage"></div>
+
+</div>
+
+  </div>  <!-- ДРУЗЬЯ -->  <div id="friends" class="page"><div class="header">👥 Друзья</div>
+
+<div class="profile-box">
+
+  <p>Приглашай друзей и получай награды!</p>
+
+  <p>
+    За каждого друга: <b>+1000 🪙</b>
+  </p>
+
+  <button
+    class="main-button"
+    onclick="shareReferral()"
+  >
+    Пригласить друга
+  </button>
+
+</div>
+
+  </div>  <!-- ПЕРЕВОД -->  <div id="transfer" class="page"><div class="header">💸 Перевод</div>
+
+<div class="profile-box">
+
+  <p>
+    Твой баланс:
+    <b>🪙 <span id="transferBalance">0</span></b>
+  </p>
+
+  <p>
+    ID получателя
+  </p>
+
+  <input
+    class="input"
+    id="receiverId"
+    type="text"
+    placeholder="Введите Telegram ID"
+    inputmode="numeric"
+  >
+
+  <p>
+    Количество монет
+  </p>
+
+  <input
+    class="input"
+    id="transferAmount"
+    type="number"
+    placeholder="Например: 100"
+    min="1"
+  >
+
+  <button
+    class="main-button"
+    onclick="transferCoins()"
+  >
+    Отправить 🪙
+  </button>
+
+  <div id="transferMessage"></div>
+
+  <p class="small-text">
+    В этой версии перевод сохраняется локально.
+  </p>
+
+</div>
+
+  </div>  <!-- ПРОФИЛЬ -->  <div id="profile" class="page"><div class="header">👤 Профиль</div>
+
+<div class="profile-box">
+
+  <p id="profileName">
+    Игрок
+  </p>
+
+  <p>
+    🆔 Твой ID:
+  </p>
+
+  <div class="my-id" id="myId">
+    —
+  </div>
+
+  <button
+    class="main-button"
+    onclick="copyMyId()"
+  >
+    📋 Скопировать ID
+  </button>
+
+  <br><br>
+
+  <p>
+    🪙 Монеты:
+    <b id="profileBalance">0</b>
+  </p>
+
+  <p>
+    ⚡ Энергия:
+    <b id="profileEnergy">1000</b>
+  </p>
+
+</div>
+
+  </div>  <!-- НИЖНЕЕ МЕНЮ -->  <div class="bottom-menu"><button onclick="showPage('home')">
+  <span>🪙</span>
+  Главная
+</button>
+
+<button onclick="showPage('tasks')">
+  <span>🎯</span>
+  Задания
+</button>
+
+<button onclick="showPage('friends')">
+  <span>👥</span>
+  Друзья
+</button>
+
+<button onclick="showPage('transfer')">
+  <span>💸</span>
+  Перевод
+</button>
+
+<button onclick="showPage('profile')">
+  <span>👤</span>
+  Профиль
+</button>
+
+  </div><script>
 
 const tg = window.Telegram.WebApp;
 
@@ -308,6 +393,11 @@ tg.ready();
 tg.expand();
 
 const user = tg.initDataUnsafe?.user;
+
+
+/* =========================
+   ОСНОВНЫЕ ДАННЫЕ
+========================= */
 
 let balance =
   Number(localStorage.getItem("balance")) || 0;
@@ -317,6 +407,12 @@ let energy =
 
 const maxEnergy = 1000;
 
+
+/* =========================
+   ПОЛЬЗОВАТЕЛЬ
+========================= */
+
+let userId = user ? String(user.id) : "player";
 
 if (user) {
 
@@ -329,6 +425,13 @@ if (user) {
     "👤 " + name;
 }
 
+document.getElementById("myId").innerText =
+  userId;
+
+
+/* =========================
+   ОБНОВЛЕНИЕ ЭКРАНА
+========================= */
 
 function updateScreen() {
 
@@ -347,8 +450,14 @@ function updateScreen() {
   document.getElementById("profileEnergy").innerText =
     energy;
 
+  document.getElementById("transferBalance").innerText =
+    balance;
 }
 
+
+/* =========================
+   ТАП
+========================= */
 
 document.getElementById("coin").onclick = function() {
 
@@ -364,8 +473,15 @@ document.getElementById("coin").onclick = function() {
   balance++;
   energy--;
 
-  localStorage.setItem("balance", balance);
-  localStorage.setItem("energy", energy);
+  localStorage.setItem(
+    "balance",
+    balance
+  );
+
+  localStorage.setItem(
+    "energy",
+    energy
+  );
 
   if (tg.HapticFeedback) {
     tg.HapticFeedback.impactOccurred("light");
@@ -375,13 +491,20 @@ document.getElementById("coin").onclick = function() {
 };
 
 
+/* =========================
+   ВОССТАНОВЛЕНИЕ ЭНЕРГИИ
+========================= */
+
 setInterval(function() {
 
   if (energy < maxEnergy) {
 
     energy++;
 
-    localStorage.setItem("energy", energy);
+    localStorage.setItem(
+      "energy",
+      energy
+    );
 
     updateScreen();
   }
@@ -389,20 +512,34 @@ setInterval(function() {
 }, 1000);
 
 
+/* =========================
+   ПЕРЕКЛЮЧЕНИЕ СТРАНИЦ
+========================= */
+
 function showPage(page) {
 
   document.querySelectorAll(".page").forEach(function(el) {
     el.classList.remove("active");
   });
 
-  document.getElementById(page).classList.add("active");
+  const selectedPage =
+    document.getElementById(page);
+
+  if (selectedPage) {
+    selectedPage.classList.add("active");
+  }
+
+  window.scrollTo(0, 0);
+
+  updateScreen();
 }
 
 
-function openChannel() {
+/* =========================
+   КАНАЛ
+========================= */
 
-  // Временно открываем канал.
-  // Позже подключим настоящую проверку подписки.
+function openChannel() {
 
   window.open(
     "https://t.me/",
@@ -410,6 +547,10 @@ function openChannel() {
   );
 }
 
+
+/* =========================
+   ЕЖЕДНЕВНЫЙ БОНУС
+========================= */
 
 function dailyBonus() {
 
@@ -421,7 +562,9 @@ function dailyBonus() {
 
   if (lastBonus === today) {
 
-    tg.showAlert("Ты уже получил бонус сегодня!");
+    tg.showAlert(
+      "Ты уже получил бонус сегодня!"
+    );
 
     return;
   }
@@ -438,21 +581,250 @@ function dailyBonus() {
     balance
   );
 
-  tg.showAlert("🎁 Ты получил +100 🪙!");
+  tg.showAlert(
+    "🎁 Ты получил +100 🪙!"
+  );
 
   updateScreen();
 }
 
 
+/* =========================
+   ПРОМОКОДЫ
+========================= */
+
+const promoCodes = {
+
+  "TAPX100": 100,
+  "TAPX500": 500,
+  "TAPX1000": 1000
+
+};
+
+
+function activatePromo() {
+
+  const input =
+    document.getElementById("promoInput");
+
+  const message =
+    document.getElementById("promoMessage");
+
+  const code =
+    input.value.trim().toUpperCase();
+
+  if (!code) {
+
+    message.className = "";
+    message.innerText =
+      "❌ Введи промокод.";
+
+    return;
+  }
+
+
+  const usedPromos =
+    JSON.parse(
+      localStorage.getItem("usedPromos") || "[]"
+    );
+
+
+  if (usedPromos.includes(code)) {
+
+    message.className = "";
+    message.innerText =
+      "❌ Этот промокод уже использован.";
+
+    return;
+  }
+
+
+  if (!promoCodes[code]) {
+
+    message.className = "";
+    message.innerText =
+      "❌ Неверный промокод.";
+
+    return;
+  }
+
+
+  const reward =
+    promoCodes[code];
+
+  balance += reward;
+
+  usedPromos.push(code);
+
+
+  localStorage.setItem(
+    "usedPromos",
+    JSON.stringify(usedPromos)
+  );
+
+  localStorage.setItem(
+    "balance",
+    balance
+  );
+
+
+  message.className =
+    "success";
+
+  message.innerText =
+    "✅ Промокод активирован! +" +
+    reward +
+    " 🪙";
+
+  input.value = "";
+
+
+  if (tg.HapticFeedback) {
+    tg.HapticFeedback.notificationOccurred(
+      "success"
+    );
+  }
+
+  updateScreen();
+}
+
+
+/* =========================
+   ПЕРЕВОД МОНЕТ
+========================= */
+
+function transferCoins() {
+
+  const receiver =
+    document.getElementById("receiverId")
+      .value.trim();
+
+  const amount =
+    Number(
+      document.getElementById("transferAmount")
+        .value
+    );
+
+  const message =
+    document.getElementById("transferMessage");
+
+
+  if (!receiver) {
+
+    message.className = "";
+    message.innerText =
+      "❌ Введи ID получателя.";
+
+    return;
+  }
+
+
+  if (!amount || amount <= 0) {
+
+    message.className = "";
+    message.innerText =
+      "❌ Введи корректное количество монет.";
+
+    return;
+  }
+
+
+  if (receiver === userId) {
+
+    message.className = "";
+    message.innerText =
+      "❌ Нельзя отправить монеты самому себе.";
+
+    return;
+  }
+
+
+  if (amount > balance) {
+
+    message.className = "";
+    message.innerText =
+      "❌ Недостаточно монет.";
+
+    return;
+  }
+
+
+  balance -= amount;
+
+
+  localStorage.setItem(
+    "balance",
+    balance
+  );
+
+
+  message.className =
+    "success";
+
+  message.innerText =
+    "✅ Перевод создан: " +
+    amount +
+    " 🪙 → ID " +
+    receiver;
+
+
+  document.getElementById("receiverId").value = "";
+  document.getElementById("transferAmount").value = "";
+
+
+  if (tg.HapticFeedback) {
+    tg.HapticFeedback.notificationOccurred(
+      "success"
+    );
+  }
+
+
+  updateScreen();
+}
+
+
+/* =========================
+   КОПИРОВАНИЕ ID
+========================= */
+
+function copyMyId() {
+
+  const id = userId;
+
+  if (
+    navigator.clipboard &&
+    navigator.clipboard.writeText
+  ) {
+
+    navigator.clipboard.writeText(id);
+
+    tg.showAlert(
+      "🆔 ID скопирован!"
+    );
+
+  } else {
+
+    tg.showAlert(
+      "Твой ID: " + id
+    );
+  }
+}
+
+
+/* =========================
+   РЕФЕРАЛЬНАЯ ССЫЛКА
+========================= */
+
 function shareReferral() {
 
-  const botUsername = "Crypto_worlld_bot";
+  const botUsername =
+    "Crypto_worlld_bot";
 
   const link =
     "https://t.me/" +
     botUsername +
     "?start=ref_" +
-    (user ? user.id : "player");
+    userId;
 
   const text =
     "🔥 Заходи в TapX и зарабатывай монеты!";
@@ -463,13 +835,18 @@ function shareReferral() {
     "&text=" +
     encodeURIComponent(text);
 
-  window.open(share, "_blank");
+  window.open(
+    share,
+    "_blank"
+  );
 }
 
 
+/* =========================
+   ЗАПУСК
+========================= */
+
 updateScreen();
 
-</script>
-
-</body>
-</html>
+</script></body>
+  </html>
